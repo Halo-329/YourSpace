@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div th:replace="~{nav.html::navbar}"></div>
+    <form action="/add" method="POST">
+        제목 <input name="title"></input>
+        <br>
+        가격 <input name="price"></input>
+        <br>
+        <button type ="submit">전송</button>
+    </form>
+</body>
+</html>
+
