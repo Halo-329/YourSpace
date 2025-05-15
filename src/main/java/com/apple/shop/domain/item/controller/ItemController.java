@@ -18,11 +18,10 @@ public class ItemController {
 
     @GetMapping("/list")
     String list(Model model){
-       List<Item> result= itemRepository.findAll();
-        System.out.println(result);
+        List<Item> itemList= itemRepository.findAll();
 
-        model.addAttribute("name" ,"홍길동");
-        return "list.html";
+        model.addAttribute("itemList", itemList);
+        return "list";
     }
 
     @GetMapping("/write")
@@ -37,9 +36,24 @@ public class ItemController {
     }
 
     @GetMapping("/detail/{id}")
-    String detail(@PathVariable Integer id){
-        Long id_= Long.valueOf(id);
-        Optional<Item> result = itemRepository.findById(id_);
+    String detail(@PathVariable Integer id,Model model){
+        Long id_;
+        Optional<Item> opt ;
+        Item item=null;
+
+
+        id_ = Long.valueOf(id);
+        opt = itemRepository.findById(id_);
+
+        if (opt.isPresent()){   // 존재하면 true
+            System.out.println(opt.get());
+             item=opt.get();
+             model.addAttribute("title",item.getTitle());
+             model.addAttribute("price",item.getPrice());
+
+        }
+
+
         return "detail.html";
     }
 
