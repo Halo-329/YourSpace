@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/item/modify.css"/>
+</head>
+<body>
+    <div th:replace="~{layout/nav.html::navbar}"></div>
+
+    <form action="/updata" method="POST">
+
+        <input name="id" type="hidden" th:value="${data.getId()}">
+        <input name="title" type="text" th:value="${data.getTitle()}">
+        <input name="price" type="text" th:value="${data.getPrice()}">
+        <button type="submit">변경</button>
+    </form>
+</body>
+</html>

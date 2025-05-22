@@ -1,0 +1,64 @@
+package com.apple.shop.domain.item.Service;
+
+import com.apple.shop.domain.item.entiity.Item;
+import com.apple.shop.domain.item.repo.ItemRepository;
+import com.apple.shop.domain.item.validator.ItemValidator;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class ItemService {
+
+    private final ItemRepository itemRepository;
+    private final ItemValidator itemValidator = new ItemValidator();
+
+    public boolean SavaItem(String title, Integer price, Model model) {
+        Item item = new Item();
+
+        if (!itemValidator.validateInput(title, price, model)) {
+            model.addAttribute("error", "제목이 20자 이상이거나 가격이 음수입니다.");
+            return false;
+        } else {
+            item.setTitle(title);
+            item.setPrice(price);
+            itemRepository.save(item);
+            return true;
+        }
+    }
+
+    public boolean ChangeItem(Long id, String title, Integer price, Model model) {
+        Item item;
+
+        Optional<Item> opt = FindItem(id);
+
+
+        if (!itemValidator.validateInput(title, price, model)) {
+            return false;
+        } else {
+            if (opt.isPresent()) {
+                item = opt.get();
+                item.setTitle(title);
+                item.setPrice(price);
+                itemRepository.save(item);
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public List<Item> GetItemList() {
+        return itemRepository.findAll();
+    }
+
+    public Optional<Item> FindItem(Long id) {
+        return itemRepository.findById(id);
+    }
+}

@@ -1,6 +1,6 @@
 package com.apple.shop.domain.item.controller;
 
-import com.apple.shop.domain.item.repo.ItemRepository;
+import com.apple.shop.domain.item.Service.ItemService;
 import com.apple.shop.domain.item.entiity.Item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,51 +14,75 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ItemController {
 
-    private final ItemRepository itemRepository;
+    private final ItemService itemService;
 
+
+    // 초기 리스트
     @GetMapping("/list")
-    String list(Model model){
-        List<Item> itemList= itemRepository.findAll();
+    String list(Model model) {
+        List<Item> itemList = itemService.GetItemList();
 
         model.addAttribute("itemList", itemList);
-        return "list";
+        return "item/list";
     }
 
+
+    // 1. 상품 등록
     @GetMapping("/write")
-    String write(){
-        return "write.html";
+    String write() {
+        return "item/write";
     }
 
     @PostMapping("/add")
-    String add(@ModelAttribute Item item){
-        itemRepository.save(item);
-        return "redirect:/write";
-    }
-
-    @GetMapping("/detail/{id}")
-    String detail(@PathVariable Integer id,Model model){
-        Long id_;
-        Optional<Item> opt ;
-        Item item=null;
+    String add(String title, int price,Model model) {
+        boolean result = itemService.SavaItem(title, price, model);
 
 
-        id_ = Long.valueOf(id);
-        opt = itemRepository.findById(id_);
-
-        if (opt.isPresent()){   // 존재하면 true
-            System.out.println(opt.get());
-             item=opt.get();
-             model.addAttribute("title",item.getTitle());
-             model.addAttribute("price",item.getPrice());
-
+        if (!result) {
+            return "write"; // 실패 시 다시 입력페이지로
         }
+        return "redirect:/list"; // 성공 시 리스트로
 
-
-        return "detail.html";
     }
 
-    @PostMapping("/test")
-    String test(Model model){
-        return model.toString();
+    // 2. 상품
+    @GetMapping("/modify/{id}")
+    String modify(@PathVariable Long id, Model model){
+        Optional<Item> opt = itemService.FindItem(id);
+
+        if (opt.isPresent()) {   // 존재하면 true
+            model.addAttribute("data", opt.get());
+        }
+        return "item/modify";
+
+    }
+
+    @PostMapping("/updata")
+    String updata(Long id, String title, Integer price, Model model){
+        boolean result;
+
+        result = itemService.ChangeItem(id, title, price, model);
+
+        if (!result) {
+            return "/modify/"+id; // 실패 시 다시 입력페이지로
+        }
+        return "redirect:/list"; // 성공 시 리스트로
+
+    }
+
+
+    //자세히 보기
+    @GetMapping("/detail/{id}")
+    String detail(@PathVariable Long id, Model model) {
+        Optional<Item> opt = itemService.FindItem(id);
+
+        if (opt.isPresent()) {   // 존재하면 true
+            model.addAttribute("data", opt.get());
+            return "item/detail";
+        } else {
+            return "redirect:/list";
+        }
     }
 }
+
+
