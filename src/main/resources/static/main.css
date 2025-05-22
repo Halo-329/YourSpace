@@ -53,5 +53,11 @@ input {
 .detail-info {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px; /* 줄 간격 */
+  justify-content: flex-start;
+}
+
+.detail-info button {
+  margin-top: 5px;
+  width: 80px;
 }
