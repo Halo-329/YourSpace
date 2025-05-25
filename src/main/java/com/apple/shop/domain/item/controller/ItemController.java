@@ -34,7 +34,7 @@ public class ItemController {
     }
 
     @PostMapping("/add")
-    String add(String title, int price,Model model) {
+    String add(String title, int price, Model model) {
         boolean result = itemService.SavaItem(title, price, model);
 
 
@@ -45,34 +45,45 @@ public class ItemController {
 
     }
 
-    // 2. 상품
+    // 2. 상품 수정
     @GetMapping("/modify/{id}")
-    String modify(@PathVariable Long id, Model model){
+    String modify(@PathVariable Long id, Model model) {
         Optional<Item> opt = itemService.FindItem(id);
 
         if (opt.isPresent()) {   // 존재하면 true
             model.addAttribute("data", opt.get());
         }
         return "item/modify";
-
     }
 
     @PostMapping("/updata")
-    String updata(Long id, String title, Integer price, Model model){
+    String updata(Long id, String title, Integer price, Model model) {
         boolean result;
 
         result = itemService.ChangeItem(id, title, price, model);
 
         if (!result) {
-            return "/modify/"+id; // 실패 시 다시 입력페이지로
+            return "/modify/" + id; // 실패 시 다시 입력페이지로
         }
         return "redirect:/list"; // 성공 시 리스트로
 
     }
 
 
+    // 3. 상품 삭제
+    @DeleteMapping("/items/{id}")
+    @ResponseBody
+    public String delete(@PathVariable Long id) {
+        itemService.DeleteItem(id);
+        return "success";
+    }
+
+
+
+
+
     //자세히 보기
-    @GetMapping("/detail/{id}")
+    @GetMapping("/detail")
     String detail(@PathVariable Long id, Model model) {
         Optional<Item> opt = itemService.FindItem(id);
 

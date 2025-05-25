@@ -5,25 +5,49 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="main.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
 </head>
 <body>
-<div th:replace="~{layout/nav.html::navbar}"></div>
-<div th:each="item : ${itemList}">
-    <div class="detail">
-        <img src="https://placehold.co/150">
-        <div class="detail-info">
-            <a th:href="@{'detail/' + ${item.id}}">
-                <h4 th:text="${item.title}">셔츠</h4>
-            </a>
-            <p th:text="|${item.price}원|">가격</p>
-            <button type="button" th:onclick="|location.href='/modify/${item.id}'|">✍🏻</button>
+    <div th:replace="~{layout/nav.html::navbar}"></div>
+
+    <div th:each="item : ${itemList}">
+        <div class="detail">
+            <img src="https://placehold.co/150">
+            <div class="detail-info">
+                <a th:href="@{'detail/' + ${item.id}}">
+                    <h4 th:text="${item.title}">셔츠</h4>
+                </a>
+                <p th:text="|${item.price}원|">가격</p>
+                <div class="button-group">
+                    <span th:onclick="|location.href='/modify/${item.id}'|"
+                          style="cursor: pointer; padding: 6px 12px;">✍🏻</span>
+                    <span class="delete-btn" th:attr="data-id=${item.id}" style="cursor: pointer; padding: 6px 12px;">🗑️</span>
+                </div>
+            </div>
         </div>
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".delete-btn").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    const itemId = btn.getAttribute("data-id");
 
+                    if (!confirm("정말 삭제하시겠습니까?")) return;
 
+                    const res = await fetch(`/items/${itemId}`, {
+                        method: "DELETE"
+                    });
 
-</div>
+                    if (res.ok) {
+                        btn.closest(".detail").remove();
+                    } else {
+                        alert("삭제 실패");
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
+</html>

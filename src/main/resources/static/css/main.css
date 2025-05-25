@@ -23,11 +23,7 @@ input, button {
  border-radius : 4px;
  vertical-align : middle;
 }
-button {
- background : black;
- color : white;
- border : none;
-}
+
 input {
  display : block;
 }
@@ -57,7 +53,3 @@ input {
   justify-content: flex-start;
 }
 
-.detail-info button {
-  margin-top: 5px;
-  width: 80px;
-}

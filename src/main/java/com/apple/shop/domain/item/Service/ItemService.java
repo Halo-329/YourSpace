@@ -31,7 +31,6 @@ public class ItemService {
             return true;
         }
     }
-
     public boolean ChangeItem(Long id, String title, Integer price, Model model) {
         Item item;
 
@@ -53,6 +52,13 @@ public class ItemService {
         }
         return true;
     }
+    public void DeleteItem(Long id){
+        Optional<Item> opt=FindItem(id);
+        if (opt.isPresent()) {
+            itemRepository.deleteById(id);
+        }
+    }
+
 
     public List<Item> GetItemList() {
         return itemRepository.findAll();
