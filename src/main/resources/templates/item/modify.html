@@ -2,17 +2,28 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/item/modify.css"/>
+    <title>상품 수정</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/item/modify.css">
 </head>
 <body>
+
     <div th:replace="~{layout/nav.html::navbar}"></div>
 
-    <form action="/updata" method="POST">
+    <div class="modify-container">
+        <h2>상품 수정</h2>
+        <form action="/updata" method="POST">
+            <input name="id" type="hidden" th:value="${data.getId()}">
 
-        <input name="id" type="hidden" th:value="${data.getId()}">
-        <input name="title" type="text" th:value="${data.getTitle()}">
-        <input name="price" type="text" th:value="${data.getPrice()}">
-        <button type="submit">변경</button>
-    </form>
+            <label for="title">제목</label>
+            <input id="title" name="title" type="text" th:value="${data.getTitle()}" placeholder="상품명을 입력하세요">
+
+            <label for="price">가격</label>
+            <input id="price" name="price" type="text" th:value="${data.getPrice()}" placeholder="가격을 입력하세요">
+
+            <button type="submit">변경</button>
+        </form>
+    </div>
+
 </body>
 </html>

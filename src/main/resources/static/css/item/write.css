@@ -1,50 +1,56 @@
-.modify-container {
+.form-container {
     max-width: 500px;
     margin: 50px auto;
     padding: 30px;
     background-color: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     font-family: 'Montserrat', sans-serif;
 }
 
-.modify-container h2 {
-    text-align: center;
+.form-container h2 {
+    margin-bottom: 20px;
     font-size: 24px;
+    text-align: center;
     color: #333;
-    margin-bottom: 25px;
 }
 
-.modify-container label {
+.form-container label {
     display: block;
-    margin-bottom: 6px;
+    margin-top: 15px;
+    margin-bottom: 5px;
     font-weight: 600;
     color: #444;
-    margin-top: 15px;
 }
 
-.modify-container input[type="text"] {
+.form-container input {
     width: 100%;
     padding: 10px;
-    font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 6px;
+    font-size: 14px;
     box-sizing: border-box;
 }
 
-.modify-container button {
-    margin-top: 25px;
+.form-container button {
+    margin-top: 20px;
     width: 100%;
     padding: 12px;
-    background-color: #007BFF;
+    background-color: #4CAF50;
     color: white;
-    font-size: 16px;
     border: none;
     border-radius: 6px;
+    font-size: 16px;
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
 
-.modify-container button:hover {
-    background-color: #0056b3;
+.form-container button:hover {
+    background-color: #45a049;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
 }

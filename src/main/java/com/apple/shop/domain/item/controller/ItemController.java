@@ -83,7 +83,7 @@ public class ItemController {
 
 
     //자세히 보기
-    @GetMapping("/detail")
+    @GetMapping("/detail/{id}")
     String detail(@PathVariable Long id, Model model) {
         Optional<Item> opt = itemService.FindItem(id);
 

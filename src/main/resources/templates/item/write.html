@@ -1,24 +1,29 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="css/main.css">
+    <title>상품 등록</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/item/write.css">
 </head>
 <body>
+
     <div th:replace="~{layout/nav.html::navbar}"></div>
-    <form action="/add" method="POST">
-        제목 <input name="title"></input>
 
-        <br>
-        가격 <input name="price"></input>
-        <p th:if="${error}" th:text="${error}" style="color:red;"></p>
+    <div class="form-container">
+        <h2>상품 등록</h2>
+        <form action="/add" method="POST">
+            <label for="title">제목</label>
+            <input type="text" id="title" name="title" placeholder="상품명을 입력하세요">
 
-        <br>
-        <button type ="submit">등록</button>
-    </form>
+            <label for="price">가격</label>
+            <input type="number" id="price" name="price" placeholder="가격을 입력하세요">
+
+            <p th:if="${error}" th:text="${error}" class="error-message">에러 메시지</p>
+
+            <button type="submit">등록</button>
+        </form>
+    </div>
 
 </body>
 </html>
-

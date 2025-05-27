@@ -1,0 +1,4 @@
+a:visited {
+    color: inherit; /* 상속된 색상 유지 */
+    text-decoration: none; /* 밑줄 제거 (필요 시) */
+}
