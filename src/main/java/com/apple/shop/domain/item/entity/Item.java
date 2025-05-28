@@ -1,4 +1,4 @@
-package com.apple.shop.domain.item.entiity;
+package com.apple.shop.domain.item.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;

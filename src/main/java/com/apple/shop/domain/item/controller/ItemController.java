@@ -1,7 +1,7 @@
 package com.apple.shop.domain.item.controller;
 
-import com.apple.shop.domain.item.Service.ItemService;
-import com.apple.shop.domain.item.entiity.Item;
+import com.apple.shop.domain.item.service.ItemService;
+import com.apple.shop.domain.item.entity.Item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +39,7 @@ public class ItemController {
 
 
         if (!result) {
-            return "write"; // 실패 시 다시 입력페이지로
+            return "item/write"; // 실패 시 다시 입력페이지로
         }
         return "redirect:/list"; // 성공 시 리스트로
 

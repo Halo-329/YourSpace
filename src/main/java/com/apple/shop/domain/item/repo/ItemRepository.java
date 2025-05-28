@@ -1,6 +1,6 @@
 package com.apple.shop.domain.item.repo;
 
-import com.apple.shop.domain.item.entiity.Item;
+import com.apple.shop.domain.item.entity.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 //테이블 인터페이스

@@ -1,10 +1,9 @@
-package com.apple.shop.domain.item.Service;
+package com.apple.shop.domain.item.service;
 
-import com.apple.shop.domain.item.entiity.Item;
+import com.apple.shop.domain.item.entity.Item;
 import com.apple.shop.domain.item.repo.ItemRepository;
 import com.apple.shop.domain.item.validator.ItemValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -21,7 +20,7 @@ public class ItemService {
     public boolean SavaItem(String title, Integer price, Model model) {
         Item item = new Item();
 
-        if (!itemValidator.validateInput(title, price, model)) {
+        if (!itemValidator.validateInput(title, price)) {
             model.addAttribute("error", "제목이 20자 이상이거나 가격이 음수입니다.");
             return false;
         } else {
@@ -37,7 +36,7 @@ public class ItemService {
         Optional<Item> opt = FindItem(id);
 
 
-        if (!itemValidator.validateInput(title, price, model)) {
+        if (!itemValidator.validateInput(title, price)) {
             return false;
         } else {
             if (opt.isPresent()) {

@@ -1,9 +1,8 @@
 package com.apple.shop.domain.item.validator;
 
-import org.springframework.ui.Model;
 
 public class ItemValidator {
-    public boolean validateInput(String title, Integer price, Model model) {
+    public boolean validateInput(String title, Integer price) {
         boolean valid = true;
 
         if (title.length() >= 20) {
