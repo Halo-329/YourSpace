@@ -29,4 +29,10 @@ public class MemberController {
         }
         return "redirect:/list"; // 성공 시 리스트로
     }
+
+    //2. 로그인
+    @GetMapping("/member/login")
+    String login(){
+        return "member/login";
+    }
 }

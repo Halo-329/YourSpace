@@ -4,6 +4,8 @@ import com.apple.shop.domain.member.entity.Member;
 import com.apple.shop.domain.member.repo.MemberRepo;
 import com.apple.shop.domain.member.validator.MemberValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class MemberService {
 
      private final MemberRepo memberRepo;
+     private final PasswordEncoder passwordEncoder;
     private final MemberValidator memberValidator = new MemberValidator();
 
     public boolean SavaMember( String loginId  , String loginPw,  String Email,Model model) {
@@ -31,7 +34,7 @@ public class MemberService {
         }
         else {
             member.setLoginId(loginId);
-            member.setLoginPw(loginPw);
+            member.setLoginPw(passwordEncoder.encode(loginPw));
             member.setEmail(Email);
             memberRepo.save(member);
             return true;
