@@ -24,6 +24,11 @@ main {
   color: #333;
 }
 
+.login-container h2 a {
+  text-decoration: none;
+  color: inherit;
+}
+
 /* 입력 필드 재정의 (main.css보다 우선 적용) */
 .login-container input {
   width: 100%;
