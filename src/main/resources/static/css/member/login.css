@@ -51,3 +51,23 @@ main {
 .login-container button:hover {
   background-color: #0056b3;
 }
+
+/* 에러 메시지 */
+#error_msg {
+  margin-bottom: 16px;
+  padding: 12px;
+  background-color: #ffe6e6;
+  color: #d60000;
+  border: 1px solid #ff9999;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.login-container button:disabled {
+  background-color: #ccc;
+  color: #888;
+  cursor: not-allowed;
+  pointer-events: none; /* 마우스 이벤트 완전 차단 */
+}
+

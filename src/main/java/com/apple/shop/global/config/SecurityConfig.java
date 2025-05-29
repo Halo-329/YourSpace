@@ -13,15 +13,19 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf((csrf)->csrf.disable());
+        http.csrf((csrf) -> csrf.disable());
         http.authorizeHttpRequests((authorize) ->
-            authorize.requestMatchers("/**").permitAll()
+                authorize.requestMatchers("/**").permitAll()
+        );
+        http.formLogin((formLogin) -> formLogin.loginPage("/member/login") // 1. 로그인 할 URL
+                .defaultSuccessUrl("/") // 2. 로그인 성공시 이동할 URL
+//                .failureUrl("/fail") // 3. 로그인 실패시 이동할 URL
         );
         return http.build();
     }
