@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/item")
 public class ItemController {
 
     private final ItemService itemService;
@@ -41,7 +42,7 @@ public class ItemController {
         if (!result) {
             return "item/write"; // 실패 시 다시 입력페이지로
         }
-        return "redirect:/list"; // 성공 시 리스트로
+        return "redirect:/item/list"; // 성공 시 리스트로
 
     }
 
@@ -91,7 +92,7 @@ public class ItemController {
             model.addAttribute("data", opt.get());
             return "item/detail";
         } else {
-            return "redirect:/list";
+            return "redirect:/member/list";
         }
     }
 }
