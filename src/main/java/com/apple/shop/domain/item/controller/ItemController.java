@@ -19,6 +19,11 @@ public class ItemController {
 
 
     // 초기 리스트
+   @GetMapping("/")
+    public String redirectToList() {
+        return "redirect:/item/list";
+    }
+
     @GetMapping("/list")
     String list(Model model) {
         List<Item> itemList = itemService.GetItemList();
