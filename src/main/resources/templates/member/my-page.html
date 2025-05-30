@@ -23,8 +23,16 @@
     <div class="mypage-row">
         <span class="label">이메일 :</span>
         <span class="value" th:text="${member.getEmail()}">sample@email.com</span>
-
     </div>
+
+    <div class="mypage-row">
+        <span class="label">권한 :</span>
+        <div sec:authorize="hasAuthority('일반유저')">
+            <span class="value">일반</span>
+
+        </div>
+    </div>
+
 </div>
 
 </body>

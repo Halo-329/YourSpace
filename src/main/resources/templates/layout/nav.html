@@ -1,15 +1,23 @@
-
 <link rel="stylesheet" href="/css/main.css">
 <link rel="stylesheet" href="/css/layout/nav.css">
 
 <div class="nav" th:fragment="navbar">
-    <div class = "nav-left">
+    <div class="nav-left">
         <a class="logo" href="/item/list">Shopping Mall</a>
         <a href="/item/write">Write</a>
     </div>
-    <div class = "nav-right">
+    <div class="nav-right">
         <a href="/member/signup">Sign Up</a>
-        <a href="/member/login">Login</a>
+        <div sec:authorize="!isAuthenticated()">
+            <a href="/member/login">Login</a>
+        </div>
+
+        <div sec:authorize="isAuthenticated()">
+            <form action="/member/logout" method="post" style="margin: 0; padding: 0;">
+                <button type="submit" class="logout-link">Log Out</button>
+            </form>
+        </div>
+
 
     </div>
 

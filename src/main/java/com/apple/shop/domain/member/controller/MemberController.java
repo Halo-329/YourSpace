@@ -24,13 +24,13 @@ public class MemberController {
 
     // 1. 회원가입
     @GetMapping("/signup")
-    String signup(){
+    String signup() {
         return "member/signup";
     }
 
     @PostMapping("/add")
     String add(String usrID, String password, String email, Model model) {
-        boolean result= memberService.SavaMember(usrID,password,email, model);
+        boolean result = memberService.SavaMember(usrID, password, email, model);
 
         if (!result) {
             return "member/signup"; // 실패 시 다시 입력페이지로
@@ -40,18 +40,24 @@ public class MemberController {
 
     // 2. 로그인
     @GetMapping("/login")
-    String login(String username , String password){
+    String login(String username, String password) {
         return "member/login";
+    }
+
+    // 2.5 로그아웃
+    @PostMapping("/logout")
+    String logout(String username, String password) {
+        return "redirect:/item/list";
     }
 
 
     // 3. 마이페이지
     @GetMapping("/my-page")
-    String me(Authentication auth,Model model){
+    String me(Authentication auth, Model model) {
         String id = auth.getName();
-        Optional<Member> opt= memberRepo.findFirstByLoginId(id);
+        Optional<Member> opt = memberRepo.findFirstByLoginId(id);
 
-        if (opt.isPresent()){
+        if (opt.isPresent()) {
             model.addAttribute("member", opt.get());
         }
 
