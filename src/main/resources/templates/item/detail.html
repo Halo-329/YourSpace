@@ -10,14 +10,19 @@
 </head>
 <body>
 
-    <div th:replace="~{layout/nav.html::navbar}"></div>
+<div th:replace="~{layout/nav.html::navbar}"></div>
 
-    <div class="detail">
-        <h4>상세페이지</h4>
-        <img src="https://placehold.co/300x300?text=Sample+Image">
-        <h4 th:text="${data.getTitle()}">sample title</h4>
-        <p th:text="${data.getPrice() + '원'}">sample price</p>
-    </div>
+<div class="detail">
+    <h4>상세페이지</h4>
+    <img src="https://placehold.co/300x300?text=Sample+Image">
+
+    <h4 th:text="${data.getTitle()}">sample title</h4>
+    <p th:text="${data.getPrice() + '원'}">sample price</p>
+    <p class="writer" th:if="${data.usrID != null}">
+        👤 <span th:text="'작성자 : ' + ${data.usrID}">작성자 : sampleUser</span>
+    </p>
+
+</div>
 
 </body>
 </html>

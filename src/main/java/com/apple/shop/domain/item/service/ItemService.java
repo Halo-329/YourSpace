@@ -17,7 +17,7 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final ItemValidator itemValidator = new ItemValidator();
 
-    public boolean SavaItem(String title, Integer price, Model model) {
+    public boolean SavaItem(String title, Integer price, Model model, String usrID) {
         Item item = new Item();
 
         if (!itemValidator.validateInput(title, price)) {
@@ -26,6 +26,7 @@ public class ItemService {
         } else {
             item.setTitle(title);
             item.setPrice(price);
+            item.setUsrID(usrID);
             itemRepository.save(item);
             return true;
         }

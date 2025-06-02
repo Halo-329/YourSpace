@@ -3,6 +3,7 @@ package com.apple.shop.domain.item.controller;
 import com.apple.shop.domain.item.service.ItemService;
 import com.apple.shop.domain.item.entity.Item;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,8 +41,9 @@ public class ItemController {
     }
 
     @PostMapping("/add")
-    String add(String title, int price, Model model) {
-        boolean result = itemService.SavaItem(title, price, model);
+    String add(String title, int price, Model model, Authentication auth) {
+        String usrid=auth.getName();
+        boolean result = itemService.SavaItem(title, price, model,usrid);
 
 
         if (!result) {

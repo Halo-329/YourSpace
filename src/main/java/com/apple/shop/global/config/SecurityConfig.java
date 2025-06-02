@@ -25,10 +25,13 @@ public class SecurityConfig {
         );
         http.formLogin((formLogin) -> formLogin.loginPage("/member/login")
 //                        .loginProcessingUrl("/member/check") // 로그인 처리 요청 (POST)// 1. 로그인 할 URL
-                        .defaultSuccessUrl("/member/my-page", true) // 2. 로그인 성공시 이동할 URL
+                        .defaultSuccessUrl("/item/list", true) // 2. 로그인 성공시 이동할 URL
 //                .failureUrl("/fail") // 3. 로그인 실패시 이동할 URL
         );
-        http.logout(logout-> logout.logoutUrl("/member/logout"));
+        http.logout(logout-> logout.logoutUrl("/member/logout")
+                .logoutSuccessUrl("/item/list")
+        );
+
         return http.build();
     }
 }

@@ -59,9 +59,18 @@ public class MemberController {
 
         if (opt.isPresent()) {
             model.addAttribute("member", opt.get());
+            return "member/my-page";
         }
 
-//        return "member/mypage";
+        return "member/login";
+    }
+
+
+    @GetMapping("/register")
+    String register(Authentication auth) {
+        if (auth==null || auth.isAuthenticated()) {
+            return "redirect:/item/list";
+        }
         return "member/my-page";
     }
 

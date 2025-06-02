@@ -17,6 +17,7 @@ public class Item {     //테이블 속성 메타 데이터
     @Column
     private String title;
     private Integer price;
+    private String usrID;
 
     @Override
     public String toString() {
