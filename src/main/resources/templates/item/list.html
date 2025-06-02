@@ -21,7 +21,7 @@
                 </a>
                 <p th:text="|${item.price}원|">가격</p>
                 <div class="button-group">
-                    <span th:onclick="|location.href='/modify/${item.id}'|"
+                    <span th:onclick="|location.href='/item/modify/${item.id}'|"
                           style="cursor: pointer; padding: 6px 12px;">✍🏻</span>
                     <span class="delete-btn" th:attr="data-id=${item.id}" style="cursor: pointer; padding: 6px 12px;">🗑️</span>
                 </div>

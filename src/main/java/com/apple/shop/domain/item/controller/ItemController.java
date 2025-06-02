@@ -73,7 +73,7 @@ public class ItemController {
         if (!result) {
             return "/modify/" + id; // 실패 시 다시 입력페이지로
         }
-        return "redirect:/list"; // 성공 시 리스트로
+        return "redirect:/item/list"; // 성공 시 리스트로
 
     }
 
