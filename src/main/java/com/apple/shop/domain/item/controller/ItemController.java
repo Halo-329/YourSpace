@@ -20,7 +20,8 @@ public class ItemController {
     private final ItemService itemService;
 
 
-    // 초기 리스트
+
+    // 0. 초기 페이지
    @GetMapping("/")
     public String redirectToList() {
         return "redirect:/item/list";
@@ -30,7 +31,6 @@ public class ItemController {
     String list() {
         return "redirect:/item/list/page/1";
     }
-
 
     @GetMapping("/list/page/{num}")
     String list(Model model, @PathVariable Integer num) {
@@ -44,6 +44,8 @@ public class ItemController {
         return "item/list";
 
     }
+
+
 
 
     // 1. 상품 등록
@@ -64,6 +66,9 @@ public class ItemController {
         return "redirect:/item/list"; // 성공 시 리스트로
 
     }
+
+
+
 
     // 2. 상품 수정
     @GetMapping("/modify/{id}")
@@ -90,6 +95,8 @@ public class ItemController {
     }
 
 
+
+
     // 3. 상품 삭제
     @DeleteMapping("/items/{id}")
     @ResponseBody
@@ -101,8 +108,7 @@ public class ItemController {
 
 
 
-
-    //자세히 보기
+    // 4. 자세히 보기
     @GetMapping("/detail/{id}")
     String detail(@PathVariable Long id, Model model) {
         Optional<Item> opt = itemService.FindItem(id);
