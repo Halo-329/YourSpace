@@ -22,11 +22,11 @@ public class MemberService {
      private final PasswordEncoder passwordEncoder;
     private final MemberValidator memberValidator = new MemberValidator();
 
-    public boolean SavaMember( String loginId  , String loginPw,  String Email,Model model) {
+    public boolean SavaMember( String loginId  , String loginPw,  String usrName, String Email,Model model) {
 
         Member member = new Member();
 
-        if (!memberValidator.validateInput(loginId, loginPw, Email)) {
+        if (!memberValidator.validateInput(loginId, loginPw, usrName, Email)) {
             model.addAttribute("error", "아이디 혹은 비밀번호는 20자 이하여야 합니다.");
             return false;
         }
@@ -37,6 +37,7 @@ public class MemberService {
         else {
             member.setLoginId(loginId);
             member.setLoginPw(passwordEncoder.encode(loginPw));
+            member.setUsrName(usrName);
             member.setEmail(Email);
             memberRepo.save(member);
             return true;
@@ -51,7 +52,7 @@ public class MemberService {
 
     }
 
-    
+
 
 
 

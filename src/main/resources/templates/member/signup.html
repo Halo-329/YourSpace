@@ -11,28 +11,31 @@
 </head>
 
 <body>
-    <!-- ✅ 상단 네비게이션 -->
-    <header th:replace="~{layout/nav.html::navbar}"></header>
+<!-- ✅ 상단 네비게이션 -->
+<header th:replace="~{layout/nav.html::navbar}"></header>
 
-    <!-- ✅ 회원가입 폼 -->
-    <main>
-        <div class="signup-container">
-            <h2>회원가입</h2>
-            <form action="/member/add" method="post">
-                <label for="username">아이디</label>
-                <input type="text" id="username" name="usrID" required />
+<!-- ✅ 회원가입 폼 -->
+<main>
+    <div class="signup-container">
+        <h2>회원가입</h2>
+        <form action="/member/add" method="post">
+            <label for="username">아이디</label>
+            <input type="text" id="username" name="usrID" required/>
 
-                <label for="password">비밀번호</label>
-                <input type="password" id="password" name="password" required />
+            <label for="password">비밀번호</label>
+            <input type="password" id="password" name="password" required/>
 
-                <label for="email">이메일</label>
-                <input type="email" id="email" name="email" required />
+            <label for="usrName">이름</label>
+            <input type="text" id="usrName" name="usrName" required/>
 
-                <p th:if="${error}" th:text="${error}" class="error-message">에러 메시지</p>
+            <label for="email">이메일</label>
+            <input type="email" id="email" name="email" required/>
 
-                <button type="submit">가입하기</button>
-            </form>
-        </div>
-    </main>
+            <p th:if="${error}" th:text="${error}" class="error-message">에러 메시지</p>
+
+            <button type="submit">가입하기</button>
+        </form>
+    </div>
+</main>
 </body>
 </html>

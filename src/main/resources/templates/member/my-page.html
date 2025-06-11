@@ -16,6 +16,11 @@
     <div class="mypage-title">회원 정보</div>
 
     <div class="mypage-row">
+        <span class="label">이름 :</span>
+        <span class="value" th:text="${member.getUsrName()}">sampleId</span>
+    </div>
+
+    <div class="mypage-row">
         <span class="label">아이디 :</span>
         <span class="value" th:text="${member.getLoginId()}">sampleId</span>
     </div>

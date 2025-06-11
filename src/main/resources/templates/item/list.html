@@ -20,8 +20,8 @@
                     <h4 th:text="${item.title}">셔츠</h4>
                 </a>
                 <p th:text="|${item.price}원|">가격</p>
-                <div class="button-group">
-                    <span th:onclick="|location.href='/item/modify/${item.id}'|"
+                <div class="button-group" sec:authorize="isAuthenticated()">
+                    <span  th:onclick="|location.href='/item/modify/${item.id}'|"
                           style="cursor: pointer; padding: 6px 12px;">✍🏻</span>
                     <span class="delete-btn" th:attr="data-id=${item.id}" style="cursor: pointer; padding: 6px 12px;">🗑️</span>
                 </div>
@@ -37,14 +37,14 @@
 
                     if (!confirm("정말 삭제하시겠습니까?")) return;
 
-                    const res = await fetch(`/items/${itemId}`, {
+                    const res = await fetch(`/item/items/${itemId}`, {
                         method: "DELETE"
                     });
 
                     if (res.ok) {
                         btn.closest(".detail").remove();
                     } else {
-                        alert("삭제 실패");
+                        alert("");
                     }
                 });
             });

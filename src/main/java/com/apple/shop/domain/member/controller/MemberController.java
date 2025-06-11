@@ -3,13 +3,14 @@ package com.apple.shop.domain.member.controller;
 import com.apple.shop.domain.member.entity.Member;
 import com.apple.shop.domain.member.repo.MemberRepo;
 import com.apple.shop.domain.member.service.MemberService;
+import com.apple.shop.domain.member.service.MyUserDetailsService;
+import lombok.CustomLog;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.Option;
 import java.util.Optional;
@@ -29,8 +30,8 @@ public class MemberController {
     }
 
     @PostMapping("/add")
-    String add(String usrID, String password, String email, Model model) {
-        boolean result = memberService.SavaMember(usrID, password, email, model);
+    String add(String usrID, String password, String usrName, String email, Model model) {
+        boolean result = memberService.SavaMember(usrID, password, usrName, email, model);
 
         if (!result) {
             return "member/signup"; // 실패 시 다시 입력페이지로
@@ -56,6 +57,8 @@ public class MemberController {
     String me(Authentication auth, Model model) {
         String id = auth.getName();
         Optional<Member> opt = memberRepo.findFirstByLoginId(id);
+        MyUserDetailsService.CustomUser result =  (MyUserDetailsService.CustomUser) auth.getPrincipal();
+        System.out.println(result.displayName);
 
         if (opt.isPresent()) {
             model.addAttribute("member", opt.get());
@@ -72,6 +75,28 @@ public class MemberController {
             return "redirect:/item/list";
         }
         return "member/my-page";
+    }
+
+
+    @GetMapping("/usr/{id}")
+    @ResponseBody
+     MemberDTO GetUsr(@PathVariable Long id){
+        var result =memberRepo.findById(id);
+        MemberDTO memberDTO = new MemberDTO(result.get().getId(),result.get().getLoginId(), result.get().getUsrName());
+
+    return memberDTO;
+    }
+
+    @RequiredArgsConstructor
+    class MemberDTO{
+        @NonNull
+        public Long id;
+
+        @NonNull
+        public String usrName;
+
+        @NonNull
+        public String displayName;
     }
 
 }

@@ -16,6 +16,7 @@ public class Member {
     @Column
     private String loginId;
     private String loginPw;
+    private String UsrName;
     private String Email;
 
 
