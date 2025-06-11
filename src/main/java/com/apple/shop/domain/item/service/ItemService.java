@@ -4,6 +4,9 @@ import com.apple.shop.domain.item.entity.Item;
 import com.apple.shop.domain.item.repo.ItemRepository;
 import com.apple.shop.domain.item.validator.ItemValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -58,13 +61,14 @@ public class ItemService {
             itemRepository.deleteById(id);
         }
     }
-
-
     public List<Item> GetItemList() {
         return itemRepository.findAll();
     }
-
     public Optional<Item> FindItem(Long id) {
         return itemRepository.findById(id);
     }
+    public Page<Item> getPage(int page_num, int item_cnt){
+        return itemRepository.findPageBy(PageRequest.of(page_num, item_cnt));
+    }
+
 }

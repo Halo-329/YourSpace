@@ -3,6 +3,7 @@ package com.apple.shop.domain.item.controller;
 import com.apple.shop.domain.item.service.ItemService;
 import com.apple.shop.domain.item.entity.Item;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,11 +27,22 @@ public class ItemController {
     }
 
     @GetMapping("/list")
-    String list(Model model) {
-        List<Item> itemList = itemService.GetItemList();
+    String list() {
+        return "redirect:/item/list/page/1";
+    }
 
-        model.addAttribute("itemList", itemList);
+
+    @GetMapping("/list/page/{num}")
+    String list(Model model, @PathVariable Integer num) {
+        Page<Item> result=itemService.getPage(num-1,5);
+
+        model.addAttribute("itemList", result);
+        model.addAttribute("currentPage", num);
+        int page_cnt=result.getTotalPages();
+        model.addAttribute("totalPages", result.getTotalPages());
+
         return "item/list";
+
     }
 
 

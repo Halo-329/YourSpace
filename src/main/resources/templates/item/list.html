@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/layout/nav.css">
     <link rel="stylesheet" href="/css/item/list.css"/>
+    <link rel="stylesheet" href="/css/layout/pagination.css">
+
+<!-- 페이지 아래쪽에 삽입 -->
+
 </head>
 <body>
     <div th:replace="~{layout/nav.html::navbar}"></div>
@@ -28,6 +32,9 @@
             </div>
         </div>
     </div>
+
+    <div th:replace="~{layout/pagination :: pagination(${currentPage}, ${totalPages})}"></div>
+s
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
