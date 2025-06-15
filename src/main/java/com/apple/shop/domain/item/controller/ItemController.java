@@ -2,13 +2,16 @@ package com.apple.shop.domain.item.controller;
 
 import com.apple.shop.domain.item.service.ItemService;
 import com.apple.shop.domain.item.entity.Item;
+import com.apple.shop.domain.item.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,14 +21,11 @@ import java.util.Optional;
 public class ItemController {
 
     private final ItemService itemService;
+    private final S3Service s3Service;
 
 
 
     // 0. 초기 페이지
-   @GetMapping("/")
-    public String redirectToList() {
-        return "redirect:/item/list";
-    }
 
     @GetMapping("/list")
     String list() {
@@ -55,11 +55,12 @@ public class ItemController {
     }
 
     @PostMapping("/add")
-    String add(String title, int price, Model model, Authentication auth) {
+    String add(String title, int price, String imgUrl ,Model model, Authentication auth ) {
         String usrid=auth.getName();
-        boolean result = itemService.SavaItem(title, price, model,usrid);
+        boolean result = itemService.SavaItem(title, price, model,usrid, imgUrl);
 
 
+        System.out.println(imgUrl);
         if (!result) {
             return "item/write"; // 실패 시 다시 입력페이지로
         }
@@ -120,6 +121,22 @@ public class ItemController {
             return "redirect:/member/list";
         }
     }
+
+
+    // 5. 이미지
+    @GetMapping("/presigned-url")
+    @ResponseBody
+    String getPresignedUrl(@RequestParam String filename){
+
+        var result = s3Service.createPresignedUrl("test/"+filename);
+        System.out.println(result);
+
+        return result;
+    }
 }
+
+
+
+
 
 

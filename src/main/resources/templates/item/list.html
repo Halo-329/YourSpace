@@ -18,9 +18,10 @@
 
     <div th:each="item : ${itemList}">
         <div class="detail">
-            <img src="https://placehold.co/150">
+            <img th:src="${item.getImageURL() != null ? item.getImageURL() : 'https://placehold.co/300x300?text=No+Image'}"
+     alt="상품이미지" />
             <div class="detail-info">
-                <a th:href="@{'detail/' + ${item.id}}">
+                <a th:href="@{'/item/detail/' + ${item.id}}">
                     <h4 th:text="${item.title}">셔츠</h4>
                 </a>
                 <p th:text="|${item.price}원|">가격</p>

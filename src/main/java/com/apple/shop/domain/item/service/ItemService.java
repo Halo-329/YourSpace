@@ -20,7 +20,7 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final ItemValidator itemValidator = new ItemValidator();
 
-    public boolean SavaItem(String title, Integer price, Model model, String usrID) {
+    public boolean SavaItem(String title, Integer price, Model model, String usrID, String imageURL) {
         Item item = new Item();
 
         if (!itemValidator.validateInput(title, price)) {
@@ -30,6 +30,7 @@ public class ItemService {
             item.setTitle(title);
             item.setPrice(price);
             item.setUsrID(usrID);
+            item.setImageURL(imageURL);
             itemRepository.save(item);
             return true;
         }
