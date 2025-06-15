@@ -35,4 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
 src/main/resources/application.properties
+=======
+>>>>>>> 00f4f8dada997e390e9bf4d256d627edb6571979

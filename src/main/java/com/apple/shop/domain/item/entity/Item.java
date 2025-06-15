@@ -23,6 +23,8 @@ public class Item {     //테이블 속성 메타 데이터
     @Override
     public String toString() {
         return "Item{id=" + id + ", title='" + title + "', price=" + price + ". usrID="+ usrID+", ImageURL=" +ImageURL+"}";
+
+
     }
 
 
