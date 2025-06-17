@@ -24,21 +24,34 @@
     </p>
 </div>
 
-<!-- 댓글 목록 -->
-<div class="comment-section">
-    <h3>댓글</h3>
-    <ul>
-        <li th:each="comment : ${commentList}" th:text="${comment.content} + ' - ' + ${comment.username}">
-        </li>
-    </ul>
+<!-- 로그인된 사용자만 댓글 작성 가능 -->
+<div class="comment-wrapper">
+    <div class="comment-section">
+        <h3>💬 댓글</h3>
+        <ul class="comment-list">
+            <li th:each="comment : ${commentList}" class="comment-item">
+                <div class="comment-meta">
+                    <span class="comment-username" th:text="${comment.username}">작성자</span>
+                </div>
+                <p class="comment-content" th:text="${comment.content}">댓글 내용</p>
+            </li>
+        </ul>
+    </div>
+
+    <div th:if="${#authorization.expression('isAuthenticated()')}">
+        <form class="comment-form" action="/item/comment" method="POST">
+            <textarea name="content" placeholder="댓글을 입력하세요..." required></textarea>
+            <input type="hidden" name="parentId" th:value="${data.id}">
+            <button type="submit">댓글 작성</button>
+        </form>
+    </div>
+
+    <div th:if="${#authorization.expression('isAnonymous()')}" class="login-alert">
+        <p>✋ 댓글을 작성하려면 <a href="/member/login">로그인</a>이 필요합니다.</p>
+    </div>
 </div>
 
-<!-- 댓글 작성 폼 -->
-<form action="/item/comment" method="POST">
-    <input name="content">
-    <input type="hidden" name="parentId" th:value="${data.id}" >
-    <button>전송</button>
-</form>
+
 
 </body>
 </html>
