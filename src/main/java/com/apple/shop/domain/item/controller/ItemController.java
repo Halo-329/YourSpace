@@ -1,8 +1,12 @@
 package com.apple.shop.domain.item.controller;
 
+import com.apple.shop.domain.comment.Entity.Comment;
+import com.apple.shop.domain.comment.Service.CommentService;
+import com.apple.shop.domain.comment.repo.CommentRepo;
 import com.apple.shop.domain.item.service.ItemService;
 import com.apple.shop.domain.item.entity.Item;
 import com.apple.shop.domain.item.service.S3Service;
+import com.apple.shop.domain.member.service.MyUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -22,7 +26,8 @@ public class ItemController {
 
     private final ItemService itemService;
     private final S3Service s3Service;
-
+    private final CommentService commentService;
+    private final CommentRepo commentRepo;
 
 
     // 0. 초기 페이지
@@ -113,14 +118,21 @@ public class ItemController {
     @GetMapping("/detail/{id}")
     String detail(@PathVariable Long id, Model model) {
         Optional<Item> opt = itemService.FindItem(id);
+        List<Comment> comment_list = commentService.getCommentsByParentId(id);
+
+
+
 
         if (opt.isPresent()) {   // 존재하면 true
             model.addAttribute("data", opt.get());
+            model.addAttribute("commentList",comment_list);
             return "item/detail";
         } else {
             return "redirect:/member/list";
         }
     }
+
+
 
 
     // 5. 이미지
@@ -132,6 +144,27 @@ public class ItemController {
         System.out.println(result);
 
         return result;
+    }
+
+
+
+
+    // 6. 댓글
+    @PostMapping("/comment")
+    String comment(@RequestParam String content, @RequestParam Long parentId, Authentication auth, Model model){   //input name = "content"
+        MyUserDetailsService.CustomUser usr = (MyUserDetailsService.CustomUser) auth.getPrincipal();    //스프링 시큐리티에서  customusr로 타입캐스팅해놓음.
+
+        var comment = new Comment();
+
+        comment.setUsername(usr.getUsername());
+        comment.setContent(content);
+        comment.setParentId(parentId);
+
+        commentRepo.save(comment);
+
+        return "redirect:/item/detail/"+parentId;
+
+        //http://localhost:8080/item/detail/55
     }
 }
 

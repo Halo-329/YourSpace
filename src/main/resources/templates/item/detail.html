@@ -1,11 +1,11 @@
+<!-- templates/item/detail.html -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>상품 상세</title>
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/layout/nav.css">
-
     <link rel="stylesheet" href="/css/item/detail.css">
 </head>
 <body>
@@ -15,15 +15,30 @@
 <div class="detail">
     <h4>상세페이지</h4>
     <img th:src="${data.getImageURL() != null ? data.getImageURL() : 'https://placehold.co/300x300?text=No+Image'}"
-     alt="상품이미지" />
+         alt="상품이미지" />
 
     <h4 th:text="${data.getTitle()}">sample title</h4>
     <p th:text="${data.getPrice() + '원'}">sample price</p>
     <p class="writer" th:if="${data.usrID != null}">
         👤 <span th:text="'작성자 : ' + ${data.usrID}">작성자 : sampleUser</span>
     </p>
-
 </div>
+
+<!-- 댓글 목록 -->
+<div class="comment-section">
+    <h3>댓글</h3>
+    <ul>
+        <li th:each="comment : ${commentList}" th:text="${comment.content} + ' - ' + ${comment.username}">
+        </li>
+    </ul>
+</div>
+
+<!-- 댓글 작성 폼 -->
+<form action="/item/comment" method="POST">
+    <input name="content">
+    <input type="hidden" name="parentId" th:value="${data.id}" >
+    <button>전송</button>
+</form>
 
 </body>
 </html>

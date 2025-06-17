@@ -13,6 +13,7 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class S3Service {
 
+  //
   @Value("${spring.cloud.aws.s3.bucket}") //application.properties에 있는 버킷명 가져와서 아래 버킷 변수에 넣어달라는 어노테이션
   private String bucket;
   private final S3Presigner s3Presigner;
