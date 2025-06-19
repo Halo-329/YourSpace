@@ -14,11 +14,12 @@ public interface ItemRepository extends JpaRepository<Item,Long> {
     // 1. 페이지네이션
     Page<Item> findPageBy(Pageable page);
 
-    // 2. 검색
+    // 2.1 검색
     List<Item> findAllByTitleContains(String searchText);
 
-
-//    @Query(value="~~~", nativeQuery = true)
+    // 2.2 Full Text Index 사용하여 검색
+    @Query(value="select * from item where match(title) against(?1)", nativeQuery = true)
+    List<Item>  findAllItemByTitle(String searchText);
 
 
 }

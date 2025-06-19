@@ -75,9 +75,14 @@ public class ItemService {
         return itemRepository.findPageBy(PageRequest.of(page_num, item_cnt));
     }
 
-    // 3. 검색
+    // 3.1. 일반 검색
     public List<Item> getSearchItemsList(String searchText){
         return itemRepository.findAllByTitleContains(searchText);
+    }
+
+    // 3.2. Full Text Index 검색
+    public List<Item> findItemByTitle(String searchText){
+        return itemRepository.findAllItemByTitle(searchText);
     }
 
 }
