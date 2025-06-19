@@ -173,7 +173,9 @@ public class ItemController {
     // 7. 검색
     @PostMapping("/search")
     String search(@RequestParam String searchText){
-        List<Item> res=itemService.getSearchItemsList(searchText);
+//        List<Item> res=itemService.getSearchItemsList(searchText);
+        System.out.println(searchText);
+        var res = itemService.findItemByTitle(searchText);
         System.out.println(res);
         return "redirect:/item/list";
     }
