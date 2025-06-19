@@ -166,7 +166,23 @@ public class ItemController {
 
         //http://localhost:8080/item/detail/55
     }
+
+
+
+
+    // 7. 검색
+    @PostMapping("/search")
+    String search(@RequestParam String searchText){
+        List<Item> res=itemService.getSearchItemsList(searchText);
+        System.out.println(res);
+        return "redirect:/item/list";
+    }
+
+
+
 }
+
+
 
 
 

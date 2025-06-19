@@ -68,8 +68,16 @@ public class ItemService {
     public Optional<Item> FindItem(Long id) {
         return itemRepository.findById(id);
     }
+
+
+    // 2. 페이지네이션
     public Page<Item> getPage(int page_num, int item_cnt){
         return itemRepository.findPageBy(PageRequest.of(page_num, item_cnt));
+    }
+
+    // 3. 검색
+    public List<Item> getSearchItemsList(String searchText){
+        return itemRepository.findAllByTitleContains(searchText);
     }
 
 }

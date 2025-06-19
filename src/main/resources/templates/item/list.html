@@ -9,12 +9,18 @@
     <link rel="stylesheet" href="/css/layout/nav.css">
     <link rel="stylesheet" href="/css/item/list.css"/>
     <link rel="stylesheet" href="/css/layout/pagination.css">
+    <script src="/js/item/list.js"></script>
+
 
 <!-- 페이지 아래쪽에 삽입 -->
 
 </head>
 <body>
     <div th:replace="~{layout/nav.html::navbar}"></div>
+    <form action="/item/search" method="post">
+        <input name="searchText" style="display: inline">
+        <button>검색</button>
+    </form>
 
     <div th:each="item : ${itemList}">
         <div class="detail">
@@ -36,27 +42,7 @@
 
     <div th:replace="~{layout/pagination :: pagination(${currentPage}, ${totalPages})}"></div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            document.querySelectorAll(".delete-btn").forEach(btn => {
-                btn.addEventListener("click", async () => {
-                    const itemId = btn.getAttribute("data-id");
 
-                    if (!confirm("정말 삭제하시겠습니까?")) return;
-
-                    const res = await fetch(`/item/items/${itemId}`, {
-                        method: "DELETE"
-                    });
-
-                    if (res.ok) {
-                        btn.closest(".detail").remove();
-                    } else {
-                        alert("");
-                    }
-                });
-            });
-        });
-    </script>
 
 </body>
 </html>

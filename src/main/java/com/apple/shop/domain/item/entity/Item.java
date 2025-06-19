@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Table(indexes = @Index(columnList = "title", name="작명") )
 public class Item {     //테이블 속성 메타 데이터
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;

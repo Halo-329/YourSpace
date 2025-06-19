@@ -2,7 +2,10 @@ package com.apple.shop.domain.comment.Service;
 
 import com.apple.shop.domain.comment.Entity.Comment;
 import com.apple.shop.domain.comment.repo.CommentRepo;
+import com.apple.shop.domain.item.entity.Item;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,5 +24,6 @@ public class CommentService {
     }
     public List<Comment> getCommentsByParentId(Long parendId){
         return commentRepo.findAllByParentId(parendId);
+
     }
 }
