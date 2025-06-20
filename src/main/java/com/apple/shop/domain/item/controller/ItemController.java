@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.net.URLEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +40,10 @@ public class ItemController {
 
     @GetMapping("/list/page/{num}")
     String list(Model model, @PathVariable Integer num) {
-        Page<Item> result=itemService.getPage(num-1,5);
+        Page<Item> result=itemService.getPage(num-1,5); // 서버 입장에서 페이지는 0 부터
 
         model.addAttribute("itemList", result);
         model.addAttribute("currentPage", num);
-        int page_cnt=result.getTotalPages();
         model.addAttribute("totalPages", result.getTotalPages());
 
         return "item/list";
@@ -170,15 +170,25 @@ public class ItemController {
 
 
 
-    // 7. 검색
+    // 7.1 검색
     @PostMapping("/search")
-    String search(@RequestParam String searchText){
+    String search(@RequestParam String searchText) throws Exception{
 //        List<Item> res=itemService.getSearchItemsList(searchText);
-        System.out.println(searchText);
-        var res = itemService.findItemByTitle(searchText);
-        System.out.println(res);
-        return "redirect:/item/list";
+        searchText=URLEncoder.encode(searchText, "UTF-8");
+        return "redirect:/item/search/1?searchText="+searchText;
     }
+
+    // 7.2 검색 결과 뷰
+    @GetMapping("/search/{page}")
+    String showSearchResults(Model model, @PathVariable Integer page, @RequestParam String searchText) {
+        var res = itemService.findItemByTitle(searchText,page-1, 5);
+        model.addAttribute("itemList", res);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", res.getTotalPages());
+
+        return "item/search";
+    }
+
 
 
 

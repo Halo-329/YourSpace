@@ -19,7 +19,7 @@ public interface ItemRepository extends JpaRepository<Item,Long> {
 
     // 2.2 Full Text Index 사용하여 검색
     @Query(value="select * from item where match(title) against(?1)", nativeQuery = true)
-    List<Item>  findAllItemByTitle(String searchText);
+    Page<Item>  findAllItemByTitle(String searchText, Pageable page);
 
 
 }
