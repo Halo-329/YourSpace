@@ -81,8 +81,8 @@ public class ItemService {
     }
 
     // 3.2. Full Text Index 검색
-    public List<Item> findItemByTitle(String searchText){
-        return itemRepository.findAllItemByTitle(searchText);
+    public Page<Item> findItemByTitle(String searchText, int page_num, int item_cnt){
+        return itemRepository.findAllItemByTitle(searchText, PageRequest.of(page_num, item_cnt));
     }
 
 }
