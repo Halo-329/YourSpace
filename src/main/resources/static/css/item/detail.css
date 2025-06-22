@@ -134,3 +134,42 @@
     background: linear-gradient(135deg, #1976d2, #2196f3);
     transform: scale(1.03);
 }
+
+/* 장바구니 및 주문하기 버튼 */
+.purchase-actions {
+    max-width: 700px;
+    margin: 40px auto;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+}
+
+.purchase-actions form {
+    display: inline;
+}
+
+.purchase-actions button {
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #43cea2, #185a9d);
+    color: #fff;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.purchase-actions button:hover {
+    background: linear-gradient(135deg, #2b8a7e, #0d47a1);
+    transform: scale(1.03);
+}
+
+.purchase-actions .login-alert {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #e53935;
+}
+
