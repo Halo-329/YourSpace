@@ -192,6 +192,21 @@ public class ItemController {
 
 
 
+    // 8. 주문하기
+    @PostMapping("/order")
+    String order(Model model, @RequestParam Long itemId ){
+        Optional<Item> opt = itemService.FindItem(itemId);
+
+        if(opt.isPresent()){
+            model.addAttribute("item", opt.get());
+        }
+
+        return "item/order";    // html return
+    }
+
+
+
+
 }
 
 
