@@ -30,8 +30,11 @@
                 <input type="hidden" name="itemId" th:value="${data.id}">
                 <button type="submit">🛒 장바구니</button>
             </form>
-            <form action="/order/checkout" method="POST">
+            <form action="/item/order" method="POST">
                 <input type="hidden" name="itemId" th:value="${data.id}">
+                <input type="hidden" name="itemTitle" th:value="${data.getTitle()}">
+                <input type="hidden" name="itemPrice" th:value="${data.getPrice()}">
+
                 <button type="submit">💳 주문하기</button>
             </form>
         </div>
