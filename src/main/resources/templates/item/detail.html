@@ -22,9 +22,27 @@
     <p class="writer" th:if="${data.usrID != null}">
         👤 <span th:text="'작성자 : ' + ${data.usrID}">작성자 : sampleUser</span>
     </p>
+
+    <!-- ✅ 버튼을 .detail 안쪽으로 옮김 -->
+    <div class="purchase-actions">
+        <div th:if="${#authorization.expression('isAuthenticated()')}">
+            <form action="/cart/add" method="POST">
+                <input type="hidden" name="itemId" th:value="${data.id}">
+                <button type="submit">🛒 장바구니</button>
+            </form>
+            <form action="/order/checkout" method="POST">
+                <input type="hidden" name="itemId" th:value="${data.id}">
+                <button type="submit">💳 주문하기</button>
+            </form>
+        </div>
+
+        <div th:if="${#authorization.expression('isAnonymous()')}" class="login-alert">
+            <p>🛍️ 구매를 원하시면 <a href="/member/login">로그인</a> 해주세요.</p>
+        </div>
+    </div>
 </div>
 
-<!-- 로그인된 사용자만 댓글 작성 가능 -->
+<!-- 댓글 영역은 바깥쪽에 유지 -->
 <div class="comment-wrapper">
     <div class="comment-section">
         <h3>💬 댓글</h3>
@@ -50,8 +68,6 @@
         <p>✋ 댓글을 작성하려면 <a href="/member/login">로그인</a>이 필요합니다.</p>
     </div>
 </div>
-
-
 
 </body>
 </html>
