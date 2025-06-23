@@ -6,7 +6,7 @@
     <title>주문 확인</title>
     <link rel="stylesheet" href="/css/layout/nav.css">
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/item/order.css">
+    <link rel="stylesheet" href="/css/sales/order.css">
 </head>
 <body>
 
@@ -21,17 +21,21 @@
         <p th:text="${item.price + '원'}">가격</p>
     </div>
 
-    <form action="/order/complete" method="POST" class="order-form">
+    <form action="/sales/pay" method="POST" class="order-form">
         <input type="hidden" name="itemId" th:value="${item.id}" />
 
-        <label>배송지 주소</label>
-        <input type="text" name="address" placeholder="주소를 입력하세요" required />
+<!--        <label>배송지 주소</label>-->
+<!--        <input type="text" name="address" placeholder="주소를 입력하세요" required />-->
+
+        <label>수량</label>
+        <input type="number" name="count" value="1" min="1" required />
 
         <label>결제 수단</label>
         <select name="paymentMethod">
-            <option value="card">신용카드</option>
-            <option value="bank">계좌이체</option>
-            <option value="kakaopay">카카오페이</option>
+<!--            <option value="card">신용카드</option>-->
+<!--            <option value="bank">계좌이체</option>-->
+<!--            <option value="kakaopay">카카오페이</option>-->
+            <option value="deposit">무통장입금</option>
         </select>
 
         <button type="submit">결제하기</button>
