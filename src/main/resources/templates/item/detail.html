@@ -30,7 +30,7 @@
                 <input type="hidden" name="itemId" th:value="${data.id}">
                 <button type="submit">🛒 장바구니</button>
             </form>
-            <form action="/item/order" method="POST">
+            <form action="/sales/order" method="POST">
                 <input type="hidden" name="itemId" th:value="${data.id}">
                 <input type="hidden" name="itemTitle" th:value="${data.getTitle()}">
                 <input type="hidden" name="itemPrice" th:value="${data.getPrice()}">

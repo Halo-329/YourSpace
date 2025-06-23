@@ -6,17 +6,16 @@ import com.apple.shop.domain.comment.repo.CommentRepo;
 import com.apple.shop.domain.item.service.ItemService;
 import com.apple.shop.domain.item.entity.Item;
 import com.apple.shop.domain.item.service.S3Service;
+import com.apple.shop.domain.sales.service.SalesService;
 import com.apple.shop.domain.member.service.MyUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.net.URLEncoder;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +28,7 @@ public class ItemController {
     private final S3Service s3Service;
     private final CommentService commentService;
     private final CommentRepo commentRepo;
+    private final SalesService salesService;
 
 
     // 0. 초기 페이지
@@ -191,18 +191,6 @@ public class ItemController {
 
 
 
-
-    // 8. 주문하기
-    @PostMapping("/order")
-    String order(Model model, @RequestParam Long itemId ){
-        Optional<Item> opt = itemService.FindItem(itemId);
-
-        if(opt.isPresent()){
-            model.addAttribute("item", opt.get());
-        }
-
-        return "item/order";    // html return
-    }
 
 
 

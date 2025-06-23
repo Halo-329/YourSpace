@@ -52,7 +52,13 @@ public class MemberService {
 
     }
 
+    public Optional<Member> findFirstByLoginId(String loginId){
+        return memberRepo.findFirstByLoginId(loginId);
+    }
 
+    public Optional<Member> findById(Long id) {
+    return memberRepo.findById(id);
+}
 
 
 
