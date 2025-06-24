@@ -65,7 +65,6 @@ public class ItemController {
         boolean result = itemService.SavaItem(title, price, model,usrid, imgUrl);
 
 
-        System.out.println(imgUrl);
         if (!result) {
             return "item/write"; // 실패 시 다시 입력페이지로
         }
@@ -141,7 +140,6 @@ public class ItemController {
     String getPresignedUrl(@RequestParam String filename){
 
         var result = s3Service.createPresignedUrl("test/"+filename);
-        System.out.println(result);
 
         return result;
     }

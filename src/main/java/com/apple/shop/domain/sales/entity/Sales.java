@@ -1,5 +1,6 @@
 package com.apple.shop.domain.sales.entity;
 
+import com.apple.shop.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,14 @@ public class Sales {
     String itemName;
     Integer price;
     Integer count;
-    Long memberId;
+//    Long memberId;
+
+    @ManyToOne
+    @JoinColumn(
+            name="member_id",
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
+    )
+    private Member member;
 
     @CreationTimestamp
     LocalDateTime created;

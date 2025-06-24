@@ -21,7 +21,11 @@ public class SalesController
 {
     private final ItemService itemService;
     private final SalesService salesService;
-     // 8. 주문하기
+
+
+
+    // 1. 주문 및 결제
+    // 1.1 주문하기
     @PostMapping("/order")
     String order(Model model, @RequestParam Long itemId ){
         Optional<Item> opt = itemService.FindItem(itemId);
@@ -33,6 +37,7 @@ public class SalesController
         return "/sales/order";    // html return
     }
 
+    // 1.2 결제하기
     @PostMapping("/pay")
     String pay(Model model, @RequestParam Long itemId, @RequestParam int count, Authentication auth){
         Optional<Item> opt = itemService.FindItem(itemId);
@@ -45,7 +50,9 @@ public class SalesController
     }
 
 
-    // 9. 주문 내역 조회
+
+
+    // 2. 주문 내역 조회
     @GetMapping("/list")
     String orderList(Model model){
 

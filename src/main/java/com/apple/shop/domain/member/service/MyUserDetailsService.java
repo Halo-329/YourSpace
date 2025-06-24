@@ -34,12 +34,14 @@ public class MyUserDetailsService implements UserDetailsService {
 
         var a=new CustomUser(opt.get().getLoginId(), opt.get().getLoginPw(), auth);
         a.displayName="1";
+        a.id=opt.get().getId();
         return a;
 
     }
 
     public class CustomUser extends User{
         public String displayName;
+        public Long id;
         public CustomUser(
                 String username,
                 String password,

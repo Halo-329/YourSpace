@@ -24,10 +24,10 @@
   </thead>
   <tbody>
         <tr th:each="order : ${orders}">
-            <td th:text="${order.getItemName}">샘플상품</td>
-            <td th:text="${order.getCnt}">2</td>
-            <td th:text="${order.getPrice}">10000</td>
-            <td th:text="${order.getOrderId}">testuser</td>
+            <td th:text="${order.getItemName()}">샘플상품</td>
+            <td th:text="${order.getCount()}">2</td>
+            <td th:text="${order.getPrice()}">10000</td>
+            <td th:text="${order.getMember().getLoginId()}">testuser</td>
         </tr>
   </tbody>
 </table>
