@@ -22,7 +22,7 @@ public class Sales {
     Integer count;
 //    Long memberId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY) // member에 접근할 때만 Member DB 조회
     @JoinColumn(
             name="member_id",
             foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT)

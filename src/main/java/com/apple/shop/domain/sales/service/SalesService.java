@@ -48,11 +48,8 @@ public class SalesService {
             member.setId(usr.id);
             sales.setMember(member);
 
-
             salesRepo.save(sales);
         }
-
-
     }
 
 
