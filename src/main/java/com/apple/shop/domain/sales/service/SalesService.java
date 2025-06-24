@@ -2,6 +2,7 @@ package com.apple.shop.domain.sales.service;
 
 import com.apple.shop.domain.item.entity.Item;
 import com.apple.shop.domain.item.service.ItemService;
+import com.apple.shop.domain.member.service.MyUserDetailsService;
 import com.apple.shop.domain.sales.entity.Sales;
 import com.apple.shop.domain.sales.repo.SalesRepo;
 import com.apple.shop.domain.member.entity.Member;
@@ -38,15 +39,15 @@ public class SalesService {
             item = opt.get();
             Sales sales =new Sales();
 
-            usrId=auth.getName();
-            Optional<Member> opt_mamber = memberService.findFirstByLoginId(usrId);
-            if(opt_mamber.isPresent()){
-                sales.setMemberId(opt_mamber.get().getId());
-            }
-
             sales.setItemName(item.getTitle());
             sales.setPrice(item.getPrice());
             sales.setCount(count);
+
+            MyUserDetailsService.CustomUser usr = (MyUserDetailsService.CustomUser) auth.getPrincipal();
+            Member member = new Member();
+            member.setId(usr.id);
+            sales.setMember(member);
+
 
             salesRepo.save(sales);
         }
@@ -56,25 +57,9 @@ public class SalesService {
 
 
     // 2. DB 행 불러오기
-    public List<OrderDetail> getAllOrderDetailList(){
-        List<OrderDetail> orderDetailList = new ArrayList<>();
-        List<Sales> salesList =  salesRepo.findAll();
+    public List<Sales> getAllOrderDetailList(){
 
-        for (Sales sales : salesList){
-            OrderDetail orderDetail = new OrderDetail();
-
-            orderDetail.setItemName(sales.getItemName());
-            orderDetail.setPrice(sales.getPrice());
-            orderDetail.setCnt(sales.getCount());
-
-            Optional<Member> member = memberService.findById(sales.getMemberId());
-            if(member.isPresent()){
-                orderDetail.setOrderId(member.get().getLoginId());
-            }
-            orderDetailList.add(orderDetail);
-        }
-
-        return orderDetailList;
+        return salesRepo.findAll();
     }
 
 

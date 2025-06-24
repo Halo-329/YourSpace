@@ -58,7 +58,6 @@ public class MemberController {
         String id = auth.getName();
         Optional<Member> opt = memberRepo.findFirstByLoginId(id);
         MyUserDetailsService.CustomUser result =  (MyUserDetailsService.CustomUser) auth.getPrincipal();
-        System.out.println(result.displayName);
 
         if (opt.isPresent()) {
             model.addAttribute("member", opt.get());
