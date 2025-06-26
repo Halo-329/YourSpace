@@ -12,22 +12,42 @@
 <body>
 
 <main>
-    <form class="login-container" action="/member/login" method="POST">
+<!--    <form class="login-container" action="/member/login" method="POST">-->
+    <form class="login-container">
         <h2><a href="/item/list" >Shopping Mall</a></h2>
 
         <input id="username" name="username" placeholder="아이디" required>
         <input id="password" name="password" type="password" placeholder="비밀번호" required>
 
+
+
         <div id="error_msg" th:if="${param.error}">
             아이디 혹은 비밀번호가 잘못되었습니다.
         </div>
 
-        <button id="loginBtn" type="submit" disabled>로그인</button>
+        <button onclick="loginJWT()">JWT방식 로그인</button>
+
+<!--        <button id="loginBtn" type="submit" disabled>로그인</button>-->
 
         <!-- ✅ 회원가입 유도 문구 -->
         <p class="signup-link"> ✋🏻 계정이 없으신가요? <a href="/member/signup">회원가입</a></p>
     </form>
+
+
+    <script>
+      function loginJWT(){
+        fetch('/member/login/jwt', {
+          method : 'POST',
+          headers : {'Content-Type': 'application/json'},
+          body : JSON.stringify({
+            username : document.querySelector('#username').value,
+            password : document.querySelector('#password').value
+          })
+        }).then(r => r.text()).then((r)=>{ console.log(r) })
+      }
+    </script>
 </main>
+
 
 <script src="/js/member/login.js"></script>
 

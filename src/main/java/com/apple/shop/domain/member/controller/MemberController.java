@@ -7,12 +7,16 @@ import com.apple.shop.domain.member.service.MyUserDetailsService;
 import lombok.CustomLog;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.Option;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -22,6 +26,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final MemberRepo memberRepo;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     // 1. 회원가입
     @GetMapping("/signup")
@@ -40,10 +45,27 @@ public class MemberController {
     }
 
     // 2. 로그인
+
+    //2.1 세션 로그인
     @GetMapping("/login")
-    String login(String username, String password) {
+    String loginSession(String username, String password) {
         return "member/login";
     }
+
+    //2.2 JWT 로그인
+    @PostMapping("/login/jwt")
+    @ResponseBody
+    String loginJWT(@RequestBody Map<String, String> res){
+        var authToken = new UsernamePasswordAuthenticationToken(
+                res.get("username"), res.get("password")
+        );
+
+        var auth = authenticationManagerBuilder.getObject().authenticate(authToken);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        return "member/login";
+    }
+
 
     // 2.5 로그아웃
     @PostMapping("/logout")
