@@ -4,6 +4,9 @@ import com.apple.shop.domain.member.entity.Member;
 import com.apple.shop.domain.member.repo.MemberRepo;
 import com.apple.shop.domain.member.service.MemberService;
 import com.apple.shop.domain.member.service.MyUserDetailsService;
+import com.apple.shop.global.util.JwtUtil;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.CustomLog;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -54,16 +57,24 @@ public class MemberController {
 
     //2.2 JWT 로그인
     @PostMapping("/login/jwt")
-    @ResponseBody
-    String loginJWT(@RequestBody Map<String, String> res){
+    @ResponseBody       // Res : key=value List, json 느낌
+    String loginJWT(@RequestBody Map<String, String> res, HttpServletResponse response){
         var authToken = new UsernamePasswordAuthenticationToken(
                 res.get("username"), res.get("password")
         );
 
         var auth = authenticationManagerBuilder.getObject().authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(auth);
+        String jwt = JwtUtil.createToken(SecurityContextHolder.getContext().getAuthentication());
 
-        return "member/login";
+        var cookie = new Cookie("jwt", jwt);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(60*60);
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+
+        return jwt;
     }
 
 

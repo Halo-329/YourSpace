@@ -1,13 +1,16 @@
 package com.apple.shop.global.util;
 
+import com.apple.shop.domain.member.service.MyUserDetailsService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtUtil {
@@ -19,10 +22,19 @@ public class JwtUtil {
 
 
     // 2. JWT 생성
-    public static String createToken() {
+    public static String createToken(Authentication auth) {
+        MyUserDetailsService.CustomUser usr = (MyUserDetailsService.CustomUser) auth.getPrincipal();
+
+        String authorities = auth.getAuthorities().stream()                 //getAuthorities -> List<auth객체> return
+                .map(a->a.getAuthority())   // getAuthority() -> String return
+                .collect(Collectors.joining(","));
+
+
+
         String jwt = Jwts.builder()
-                .claim("username", "어쩌구")
-                .claim("displayName", "저쩌구")
+                .claim("username", usr.getUsername())
+                .claim("displayName", usr.displayName )
+                .claim("authorities", authorities)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 10000)) //유효기간 10초
                 .signWith(key)
