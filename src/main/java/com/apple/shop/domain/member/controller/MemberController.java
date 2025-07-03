@@ -6,6 +6,7 @@ import com.apple.shop.domain.member.service.MemberService;
 import com.apple.shop.domain.member.service.MyUserDetailsService;
 import com.apple.shop.global.util.JwtUtil;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.CustomLog;
 import lombok.NonNull;
@@ -17,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import software.amazon.awssdk.services.s3.model.GetBucketCorsRequest;
 
 import javax.swing.text.html.Option;
 import java.util.Map;
@@ -74,6 +76,8 @@ public class MemberController {
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
 
+
+
         return jwt;
     }
 
@@ -81,6 +85,8 @@ public class MemberController {
     // 2.5 로그아웃
     @PostMapping("/logout")
     String logout(String username, String password) {
+
+
         return "redirect:/item/list";
     }
 
@@ -100,6 +106,20 @@ public class MemberController {
         return "member/login";
     }
 
+    @GetMapping("/my-page/jwt")
+    @ResponseBody
+    String meByJwt(Authentication auth){
+
+        if(auth == null){
+            return "(Error) auth is null";
+        }
+        else{
+            return auth.getPrincipal().toString();
+        }
+
+
+
+    }
 
     @GetMapping("/register")
     String register(Authentication auth) {

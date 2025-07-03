@@ -39,7 +39,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     }
 
-    public class CustomUser extends User{
+    public static class CustomUser extends User{
         public String displayName;
         public Long id;
         public CustomUser(
