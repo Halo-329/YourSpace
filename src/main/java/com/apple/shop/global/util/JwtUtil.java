@@ -36,7 +36,7 @@ public class JwtUtil {
                 .claim("displayName", usr.displayName )
                 .claim("authorities", authorities)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 10000)) //유효기간 10초
+                .expiration(new Date(System.currentTimeMillis() + 1000*60*60))  // expiration : 만료
                 .signWith(key)
                 .compact();
         return jwt;

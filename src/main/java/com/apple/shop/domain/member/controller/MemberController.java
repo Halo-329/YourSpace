@@ -72,7 +72,7 @@ public class MemberController {
         var cookie = new Cookie("jwt", jwt);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
-        cookie.setMaxAge(60*60);
+        cookie.setMaxAge(24*60*60);
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
 
