@@ -49,18 +49,21 @@ public class MemberController {
         return "redirect:/item/list"; // 성공 시 리스트로
     }
 
-    // 2. 로그인
 
-    //2.1 세션 로그인
+    // 2. 로그인 및 로그아웃
+
+    // 2.1 로그인
+
+    //2.1.1 세션 로그인
     @GetMapping("/login")
     String loginSession(String username, String password) {
         return "member/login";
     }
 
-    //2.2 JWT 로그인
+    //2.1.2 JWT 로그인
     @PostMapping("/login/jwt")
-    @ResponseBody       // Res : key=value List, json 느낌
-    String loginJWT(@RequestBody Map<String, String> res, HttpServletResponse response){
+    @ResponseBody
+    Map<String, String> loginJWT(@RequestBody Map<String, String> res, HttpServletResponse response){
         var authToken = new UsernamePasswordAuthenticationToken(
                 res.get("username"), res.get("password")
         );
@@ -71,24 +74,27 @@ public class MemberController {
 
         var cookie = new Cookie("jwt", jwt);
         cookie.setPath("/");
-        cookie.setHttpOnly(true);
         cookie.setMaxAge(24*60*60);
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
 
-
-
-        return jwt;
+        return Map.of("redirect", "/item/list");
     }
 
 
-    // 2.5 로그아웃
+    // 2.2 세션 로그아웃, Spring Security가 해준다.
     @PostMapping("/logout")
     String logout(String username, String password) {
+        return "redirect:/item/list";
+    }
 
+    // 2.3 jwt 로가아웃, 쿠키 삭제하는 방향으로
+    @GetMapping("/logout/jwt")
+    String jwtLogout(){
 
         return "redirect:/item/list";
     }
+
 
 
     // 3. 마이페이지
@@ -116,9 +122,6 @@ public class MemberController {
         else{
             return auth.getPrincipal().toString();
         }
-
-
-
     }
 
     @GetMapping("/register")
