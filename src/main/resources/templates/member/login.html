@@ -20,12 +20,12 @@
         <input id="password" name="password" type="password" placeholder="비밀번호" required>
 
 
-
         <div id="error_msg" th:if="${param.error}">
             아이디 혹은 비밀번호가 잘못되었습니다.
         </div>
 
-        <button onclick="loginJWT(event)">JWT방식 로그인</button>
+        <!-- JWT 방식 로그인 -->
+        <button onclick="loginJWT(event)">로그인</button>
 
 <!--        <button id="loginBtn" type="submit" disabled>로그인</button>-->
 
