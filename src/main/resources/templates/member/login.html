@@ -34,21 +34,29 @@
     </form>
 
 
-    <script>
-      function loginJWT(event){
-          event.preventDefault(); // 폼 새로고침 방지
+   <script>
+  function loginJWT(event){
+      event.preventDefault(); // 폼 새로고침 방지
 
-        fetch('/member/login/jwt', {
-          method : 'POST',
-          headers : {'Content-Type': 'application/json'},
-            credentials: 'include',
-          body : JSON.stringify({
-            username : document.querySelector('#username').value,
-            password : document.querySelector('#password').value
-          }),
-        }).then(r => r.text()).then((r)=>{ console.log(r) })
-      }
-    </script>
+      fetch('/member/login/jwt', {
+        method : 'POST',
+        headers : {'Content-Type': 'application/json'},
+        credentials: 'include',
+        body : JSON.stringify({
+          username : document.querySelector('#username').value,
+          password : document.querySelector('#password').value
+        }),
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.redirect) {
+          window.location.href = data.redirect; // 직접 이동
+        } else {
+          alert("로그인 실패");
+        }
+      });
+  }
+</script>
 </main>
 
 
