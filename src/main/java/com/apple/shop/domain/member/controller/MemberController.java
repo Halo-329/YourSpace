@@ -89,8 +89,15 @@ public class MemberController {
     }
 
     // 2.3 jwt 로가아웃, 쿠키 삭제하는 방향으로
-    @GetMapping("/logout/jwt")
-    String jwtLogout(){
+    @PostMapping("/logout/jwt")
+    String jwtLogout(HttpServletResponse response){
+
+        // 쿠키 덮어쓰기 방법으로 삭제
+        // 유효 시간을 0초로 하고 HttpServletResponse 객체에 던져준다.
+        Cookie cookie = new Cookie("jwt", null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
 
         return "redirect:/item/list";
     }
