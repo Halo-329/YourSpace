@@ -55,8 +55,9 @@ public class JwtFilter extends OncePerRequestFilter {
         var authorites=Arrays.stream(arr)
                 .map(o -> new SimpleGrantedAuthority(o)).toList();
 
+        String username = claim.get("username").toString();
         CustomUser customUsr = new CustomUser(
-                claim.get("username").toString(),
+                username,
                 "",
                 authorites
         );
