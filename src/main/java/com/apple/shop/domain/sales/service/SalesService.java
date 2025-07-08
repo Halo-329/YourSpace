@@ -28,12 +28,12 @@ public class SalesService {
 
 
     // 1. 저장
-    public void saveItemPayRecode(Long id, int count, Authentication auth){
+    public void saveItemPayRecode(Long itemId, int count, Authentication auth){
         Item item;
         String usrId;
         Long memberId;
 
-        Optional<Item> opt = itemService.FindItem(id);
+        Optional<Item> opt = itemService.FindItem(itemId);
 
         if(opt.isPresent()){
             item = opt.get();
@@ -45,7 +45,7 @@ public class SalesService {
 
             MyUserDetailsService.CustomUser usr = (MyUserDetailsService.CustomUser) auth.getPrincipal();
             Member member = new Member();
-            member.setId(usr.id);
+            member.setId(memberService.findFirstByLoginId(usr.getUsername()).get().getId());
             sales.setMember(member);
 
             salesRepo.save(sales);
