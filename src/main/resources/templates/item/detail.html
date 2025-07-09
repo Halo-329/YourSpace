@@ -19,8 +19,10 @@
 
     <h4 th:text="${data.getTitle()}">sample title</h4>
     <p th:text="${data.getPrice() + '원'}">sample price</p>
+    <p th:class="'stock-count ' + (${data.stock} < 5 ? 'low' : '')"
+   th:text="'재고 : ' + ${data.stock} + '개'"></p>
     <p class="writer" th:if="${data.usrID != null}">
-        👤 <span th:text="'작성자 : ' + ${data.usrID}">작성자 : sampleUser</span>
+        👤 <span th:text="'판매자 : ' + ${data.usrID}">작성자 : sampleUser</span>
     </p>
 
     <!-- ✅ 버튼을 .detail 안쪽으로 옮김 -->

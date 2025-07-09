@@ -167,9 +167,21 @@
     transform: scale(1.03);
 }
 
-.purchase-actions .login-alert {
+.purchase-actions .login-₩alert {
     margin-top: 20px;
     font-size: 14px;
     color: #e53935;
 }
+
+.stock-count {
+    font-weight: 600;
+    color: #555;
+    margin-top: 10px;
+}
+
+.stock-count.low {
+    color: #e53935;
+}
+
+
 
