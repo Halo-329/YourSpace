@@ -25,6 +25,8 @@
     <div class="order-summary">
         <img th:src="${item.imageURL}" alt="상품 이미지">
         <h3 th:text="${item.title}">상품명</h3>
+        <p th:class="'stock-count ' + (${item.stock} < 5 ? 'low' : '')"
+   th:text="'재고 : ' + ${item.stock} + '개'"></p>
         <p th:text="${item.price + '원'}">가격</p>
     </div>
 

@@ -43,10 +43,10 @@ public class SalesService {
         if(opt.isPresent()){
             item = opt.get();
             Sales sales =new Sales();
-
             sales.setItemName(item.getTitle());
             sales.setPrice(item.getPrice());
             sales.setCount(count);
+            itemService.reduceStock(item.getId(),count);    // 아이템 Stock Discount
 
             MyUserDetailsService.CustomUser usr = (MyUserDetailsService.CustomUser) auth.getPrincipal();
             Member member = new Member();
