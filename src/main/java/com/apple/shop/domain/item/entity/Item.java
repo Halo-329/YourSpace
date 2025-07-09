@@ -20,6 +20,7 @@ public class Item {     //테이블 속성 메타 데이터
     private Integer price;
     private String usrID;
     private String ImageURL;
+    private Integer stock;
 
     @Override
     public String toString() {

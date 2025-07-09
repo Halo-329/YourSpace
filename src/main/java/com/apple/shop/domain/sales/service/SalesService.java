@@ -28,12 +28,17 @@ public class SalesService {
 
 
     // 1. 저장
-    public void saveItemPayRecode(Long itemId, int count, Authentication auth){
+    public boolean saveItemPayRecode(Long itemId, int count, Authentication auth){
         Item item;
         String usrId;
         Long memberId;
 
         Optional<Item> opt = itemService.FindItem(itemId);
+
+        if(!isStockAvailable(itemId, count)){
+            return false;
+        }
+
 
         if(opt.isPresent()){
             item = opt.get();
@@ -49,7 +54,10 @@ public class SalesService {
             sales.setMember(member);
 
             salesRepo.save(sales);
+
         }
+            return true;
+
     }
 
 
@@ -59,6 +67,24 @@ public class SalesService {
         return salesRepo.findAll();
     }
 
+    // 3. 재고 체크
+    public boolean isStockAvailable(Long itemId, int count){
+        Item item=null;
+
+
+        Optional<Item> opt = itemService.FindItem(itemId);
+
+        if(opt.isPresent()){
+            item=opt.get();
+        }
+
+        if(item.getStock()-count<0){
+            return false;
+        }
+
+
+        return true;
+    }
 
 
 }

@@ -12,8 +12,15 @@
 
 <div th:replace="~{layout/nav.html::navbar}"></div>
 
+<div th:if="${error}">
+    <script th:inline="javascript">
+        alert([[${error}]]);
+    </script>
+</div>
+
 <div class="checkout-container">
     <h2>🛍️ 주문 확인</h2>
+
 
     <div class="order-summary">
         <img th:src="${item.imageURL}" alt="상품 이미지">
