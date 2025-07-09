@@ -3,6 +3,7 @@ package com.apple.shop.domain.item.service;
 import com.apple.shop.domain.item.entity.Item;
 import com.apple.shop.domain.item.repo.ItemRepository;
 import com.apple.shop.domain.item.validator.ItemValidator;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -88,4 +90,13 @@ public class ItemService {
 
 
 
+
+    // 4. 주문시 재고 계산
+    @Transactional
+    public void reduceStock(Long id, int stock_count){
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Item 존재 안함"));
+
+        item.setStock(item.getStock()-stock_count);
+        }
 }
