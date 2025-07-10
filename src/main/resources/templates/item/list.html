@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/css/layout/pagination.css">
     <link rel="stylesheet" href="/css/layout/search.css">
 
-    <script src="/js/item/list.js"></script>
+    <script src="/js/item/delete.js"></script>
 
 
 <!-- 페이지 아래쪽에 삽입 -->
@@ -33,11 +33,7 @@
                     <h4 th:text="${item.title}">셔츠</h4>
                 </a>
                 <p th:text="|${item.price}원|">가격</p>
-                <div class="button-group" sec:authorize="isAuthenticated()">
-                    <span  th:onclick="|location.href='/item/modify/${item.id}'|"
-                          style="cursor: pointer; padding: 6px 12px;">✍🏻</span>
-                    <span class="delete-btn" th:attr="data-id=${item.id}" style="cursor: pointer; padding: 6px 12px;">🗑️</span>
-                </div>
+
             </div>
         </div>
     </div>

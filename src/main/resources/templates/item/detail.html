@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/layout/nav.css">
     <link rel="stylesheet" href="/css/item/detail.css">
+    <script src="/js/item/delete.js"></script>
 </head>
 <body>
 
@@ -39,6 +40,13 @@
 
                 <button type="submit">💳 주문하기</button>
             </form>
+            <div class="button-group"
+                 th:if="${#authorization.expression('isAuthenticated()') and #authentication.name == data.usrID}">
+                <span th:onclick="|location.href='/item/modify/${data.id}'|"
+                      style="cursor: pointer; padding: 6px 12px;">✍🏻</span>
+                <span class="delete-btn" th:data-id="${data.id}"
+                      style="cursor: pointer; padding: 6px 12px;">🗑️</span>
+            </div>
         </div>
 
         <div th:if="${#authorization.expression('isAnonymous()')}" class="login-alert">

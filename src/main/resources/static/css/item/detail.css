@@ -184,4 +184,28 @@
 }
 
 
+.button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.button-group span {
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #f7971e, #ffd200); /* 주황~노랑 계열 */
+    color: #333;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.button-group span:hover {
+    background: linear-gradient(135deg, #f57c00, #fbc02d);
+    transform: scale(1.03);
+}
+
+
 
