@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.Option;
 import java.util.ArrayList;
@@ -27,37 +28,36 @@ public class SalesService {
     private final MemberService memberService;
 
 
+
+
     // 1. 저장
-    public boolean saveItemPayRecode(Long itemId, int count, Authentication auth){
-        Item item;
-        String usrId;
-        Long memberId;
+    @Transactional
+    public void createSalesRecord(Long itemId, int count, Authentication auth) {
+        Item item = itemService.FindItem(itemId)
+            .orElseThrow(() -> new IllegalArgumentException("Item이 존재하지 않습니다."));
 
-        Optional<Item> opt = itemService.FindItem(itemId);
+        reduceItemStock(itemId, count);
 
-        if(!isStockAvailable(itemId, count)){
-            return false;
+        Sales sales = new Sales();
+        sales.setItemName(item.getTitle());
+        sales.setPrice(item.getPrice());
+        sales.setCount(count);
+
+        MyUserDetailsService.CustomUser usr = (MyUserDetailsService.CustomUser) auth.getPrincipal();
+        Long memberId = memberService.findFirstByLoginId(usr.getUsername()).get().getId();
+        Member member = new Member();
+        member.setId(memberId);
+        sales.setMember(member);
+
+        salesRepo.save(sales);
+    }
+
+    //1.1 재고 감소
+    public void reduceItemStock(Long itemId, int count) {
+        if (!isStockAvailable(itemId, count)) {
+            throw new IllegalArgumentException("재고가 부족합니다.");
         }
-
-
-        if(opt.isPresent()){
-            item = opt.get();
-            Sales sales =new Sales();
-            sales.setItemName(item.getTitle());
-            sales.setPrice(item.getPrice());
-            sales.setCount(count);
-            itemService.reduceStock(item.getId(),count);    // 아이템 Stock Discount
-
-            MyUserDetailsService.CustomUser usr = (MyUserDetailsService.CustomUser) auth.getPrincipal();
-            Member member = new Member();
-            member.setId(memberService.findFirstByLoginId(usr.getUsername()).get().getId());
-            sales.setMember(member);
-
-            salesRepo.save(sales);
-
-        }
-            return true;
-
+        itemService.reduceStock(itemId, count);
     }
 
 
@@ -88,7 +88,7 @@ public class SalesService {
 
 
 }
-
+@Transactional
 @RequiredArgsConstructor
 @Getter @Setter
 class OrderDetail{
