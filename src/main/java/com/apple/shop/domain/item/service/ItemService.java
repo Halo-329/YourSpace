@@ -22,7 +22,7 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final ItemValidator itemValidator = new ItemValidator();
 
-    public boolean SavaItem(String title, Integer price, int stock, Model model, String usrID, String imageURL) {
+    public boolean savaItem(String title, Integer price, int stock, Model model, String usrID, String imageURL) {
         Item item = new Item();
 
         if (!itemValidator.validateInput(title, price)) {
@@ -97,6 +97,6 @@ public class ItemService {
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Item 존재 안함"));
 
-        item.setStock(item.getStock()-stock_count);
+        item.setStock(item.getStock()-stock_count); // 재고 감소
         }
 }

@@ -43,21 +43,21 @@ public class SalesController
 
     // 1.2 결제하기
     @PostMapping("/pay")
-    String pay(Model model, @RequestParam Long itemId, @RequestParam int count, Authentication auth, RedirectAttributes ra){
-        Optional<Item> opt = itemService.FindItem(itemId);
-
-        if(opt.isPresent()){
-            boolean result = salesService.isStockAvailable(itemId, count);
-            if(!result){
-                ra.addFlashAttribute("error", "재고가 부족합니다.");
-                ra.addAttribute("itemId", itemId); // 👈 redirect 시 쿼리로 전달
-                return "redirect:/sales/order";
-            }
-            salesService.saveItemPayRecode(itemId,count, auth);
+    String pay(Model model, @RequestParam Long itemId,
+               @RequestParam int count,
+               Authentication auth,
+               RedirectAttributes ra) {
+        try {
+            salesService.createSalesRecord(itemId,count,auth);
+            return "redirect:/item/list";
+        } catch (IllegalArgumentException e) {
+            ra.addFlashAttribute("error", e.getMessage());
+            ra.addAttribute("itemId", itemId);
+            return "redirect:/sales/order";
         }
-
-        return "redirect:/item/list";    // html return
     }
+
+
 
 
 

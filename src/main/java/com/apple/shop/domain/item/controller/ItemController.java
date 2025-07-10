@@ -63,7 +63,7 @@ public class ItemController {
 
     String add(String title, int price, String imgUrl ,int stock ,Model model, Authentication auth ) {
         String usrid=auth.getName();
-        boolean result = itemService.SavaItem(title, price, stock, model,usrid, imgUrl);
+        boolean result = itemService.savaItem(title, price, stock, model,usrid, imgUrl);
 
 
         if (!result) {
