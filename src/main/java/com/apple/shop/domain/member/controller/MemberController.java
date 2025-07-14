@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -63,22 +64,27 @@ public class MemberController {
     //2.1.2 JWT 로그인
     @PostMapping("/login/jwt")
     @ResponseBody
-    Map<String, String> loginJWT(@RequestBody Map<String, String> res, HttpServletResponse response){
+    Map<String, String> loginJWT(@RequestBody Map<String, String> res, HttpServletResponse response, Model model){
+
         var authToken = new UsernamePasswordAuthenticationToken(
                 res.get("username"), res.get("password")
         );
 
-        var auth = authenticationManagerBuilder.getObject().authenticate(authToken);
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        String jwt = JwtUtil.createToken(SecurityContextHolder.getContext().getAuthentication());
+        try{
+            var auth = authenticationManagerBuilder.getObject().authenticate(authToken);    // DB에서 조회 (loadUserByUsername 메서드 호출)
+            SecurityContextHolder.getContext().setAuthentication(auth); // auth spring security에 할당
+            String jwt = JwtUtil.createToken(SecurityContextHolder.getContext().getAuthentication());
 
-        var cookie = new Cookie("jwt", jwt);
-        cookie.setPath("/");
-        cookie.setMaxAge(24*60*60);
-        cookie.setHttpOnly(true);
-        response.addCookie(cookie);
+            var cookie = new Cookie("jwt", jwt);
+            cookie.setPath("/");
+            cookie.setMaxAge(24*60*60);
+            cookie.setHttpOnly(true);
+            response.addCookie(cookie);
 
-        return Map.of("redirect", "/item/list");
+            return Map.of("status", "success", "redirect", "/item/list");
+        }catch(Exception e){
+            return Map.of("status","fail","message", e.toString());
+        }
     }
 
 
@@ -88,7 +94,7 @@ public class MemberController {
         return "redirect:/item/list";
     }
 
-    // 2.3 jwt 로가아웃, 쿠키 삭제하는 방향으로
+    // 2.3 jwt 로그아웃, 쿠키 삭제하는 방향으로
     @PostMapping("/logout/jwt")
     String jwtLogout(HttpServletResponse response){
 
