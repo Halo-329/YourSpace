@@ -11,6 +11,7 @@ public interface SalesRepo extends JpaRepository< Sales, Long>{
 
     @Query(value = "select s from Sales s join fetch s.member")
     List<Sales> findAllWithJPQL();
+    List<Sales> findAllByMember_LoginId(String loginId);
 
 
 }
