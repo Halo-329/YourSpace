@@ -24,17 +24,16 @@
 
 
 
-    <div th:each="item : ${itemList}">
-        <div class="detail">
-            <img th:src="${item.getImageURL() != null ? item.getImageURL() : 'https://placehold.co/300x300?text=No+Image'}"
-     alt="상품이미지" />
-            <div class="detail-info">
-                <a th:href="@{'/item/detail/' + ${item.id}}">
-                    <h4 th:text="${item.title}">셔츠</h4>
-                </a>
-                <p th:text="|${item.price}원|">가격</p>
-
-            </div>
+    <div class="grid-container">
+        <div th:each="item : ${itemList}" class="grid-item">
+            <a th:href="@{'/item/detail/' + ${item.id}}">
+                <img th:src="${item.getImageURL() != null ? item.getImageURL() : 'https://placehold.co/300x300?text=No+Image'}"
+                     alt="상품이미지" />
+                <div class="item-info">
+                    <h4 th:text="${item.title}">상품 이름</h4>
+                    <p th:text="|${item.price}원|">가격</p>
+                </div>
+            </a>
         </div>
     </div>
 
