@@ -71,4 +71,7 @@ public class SalesController
         return "sales/list";
     }
 
+
+
+
 }
