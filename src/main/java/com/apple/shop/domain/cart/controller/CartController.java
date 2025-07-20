@@ -15,9 +15,5 @@ public class CartController {
 
         return "/cart/cartView";
     }
-<<<<<<< HEAD
 
-
-=======
->>>>>>> origin/feature/item-list-ui-polish
 }
