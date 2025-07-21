@@ -65,9 +65,9 @@ public class SalesController
 
     // 2. 주문 내역 조회
     @GetMapping("/list")
-    String orderList(Model model, Authentication auth){
-        String usrId = auth.getName();
-        model.addAttribute("orders", salesService.getOrderDetailListByLoginId(usrId));
+    String orderList(Model model){
+
+        model.addAttribute("orders", salesService.getAllOrderDetailList());
         return "sales/list";
     }
 
