@@ -67,7 +67,12 @@ document.addEventListener('DOMContentLoaded', function () {
     cartItemsContainer.addEventListener('click', handleCartActions);
 
     orderButton.addEventListener('click', function () {
-        alert('주문이 완료되었습니다.');
+        const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        if (totalPrice === 0) {
+            alert('총 결제 금액이 0원입니다. 장바구니를 확인해주세요.');
+        } else {
+            alert('주문이 완료되었습니다.');
+        }
     });
 
     renderCartItems();
