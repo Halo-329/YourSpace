@@ -10,16 +10,15 @@
     </div>
     <div class="nav-right">
         <a sec:authorize="!isAuthenticated()">
-            <a href="/member/signup">Sign Up</a>
-            <a href="/member/login">Login</a>
+            <a href="/member/login">MyPage</a>
         </a>
 
         <a sec:authorize="isAuthenticated()">
-            <a sec:authentication="principal.username" href="/member/my-page"></a>
-            <form action="/member/logout/jwt" method="post" style="margin: 0; padding: 0;">
-                <button type="submit" class="logout-link">Logout</button>
-            </form>
+            <a href="/member/my-page">MyPage</a>
+            <a href="/cart/cartView">Cart</a>
+
         </a>
+
 
 
     </div>

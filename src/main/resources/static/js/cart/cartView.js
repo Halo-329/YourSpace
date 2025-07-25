@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const cartItemsContainer = document.querySelector('.cart-items');
     const totalPriceElement = document.querySelector('.total-price');
     const orderButton = document.querySelector('.order-button');
@@ -22,16 +22,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h4>${item.name}</h4>
                     <p>${item.price.toLocaleString()}원</p>
                 </div>
-                <div class="item-quantity">
-                    <input type="number" value="${item.quantity}" min="1" data-item-id="${item.id}">
+                <div class="item-controls">
+                    <div class="quantity-control">
+                        <button class="decrease-btn" data-item-id="${item.id}">-</button>
+                        <span class="quantity">${item.quantity}</span>
+                        <button class="increase-btn" data-item-id="${item.id}">+</button>
+                    </div>
+                    <button class="remove-item-button" data-item-id="${item.id}">삭제</button>
                 </div>
-                <button class="remove-item-button" data-item-id="${item.id}">삭제</button>
             `;
             cartItemsContainer.appendChild(itemElement);
             totalPrice += item.price * item.quantity;
         });
 
-        totalPriceElement.textContent = totalPrice.toLocaleString();
+        totalPriceElement.textContent = totalPrice.toLocaleString() + '원';
     }
 
     function handleCartActions(event) {
@@ -43,22 +47,32 @@ document.addEventListener('DOMContentLoaded', function() {
             renderCartItems();
         }
 
-        if (target.tagName === 'INPUT') {
+        if (target.classList.contains('increase-btn')) {
             const itemId = parseInt(target.dataset.itemId);
-            const newQuantity = parseInt(target.value);
             const item = cartItems.find(i => i.id === itemId);
-            if (item && newQuantity >= 1) {
-                item.quantity = newQuantity;
+            item.quantity++;
+            renderCartItems();
+        }
+
+        if (target.classList.contains('decrease-btn')) {
+            const itemId = parseInt(target.dataset.itemId);
+            const item = cartItems.find(i => i.id === itemId);
+            if (item.quantity > 1) {
+                item.quantity--;
                 renderCartItems();
             }
         }
     }
 
     cartItemsContainer.addEventListener('click', handleCartActions);
-    cartItemsContainer.addEventListener('input', handleCartActions);
 
-    orderButton.addEventListener('click', function() {
-        alert('주문이 완료되었습니다.');
+    orderButton.addEventListener('click', function () {
+        const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        if (totalPrice === 0) {
+            alert('총 결제 금액이 0원입니다. 장바구니를 확인해주세요.');
+        } else {
+            alert('주문이 완료되었습니다.');
+        }
     });
 
     renderCartItems();
