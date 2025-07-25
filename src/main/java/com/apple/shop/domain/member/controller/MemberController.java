@@ -5,23 +5,19 @@ import com.apple.shop.domain.member.repo.MemberRepo;
 import com.apple.shop.domain.member.service.MemberService;
 import com.apple.shop.domain.member.service.MyUserDetailsService;
 import com.apple.shop.global.util.JwtUtil;
+import com.apple.shop.view.ViewPath;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.CustomLog;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import software.amazon.awssdk.services.s3.model.GetBucketCorsRequest;
 
-import javax.swing.text.html.Option;
 import java.util.Map;
 import java.util.Optional;
 
@@ -37,7 +33,7 @@ public class MemberController {
     // 1. 회원가입
     @GetMapping("/signup")
     String signup() {
-        return "member/signup";
+        return ViewPath.MEMBER_SIGNUP;
     }
 
     @PostMapping("/add")
@@ -45,7 +41,7 @@ public class MemberController {
         boolean result = memberService.SavaMember(usrID, password, usrName, email, model);
 
         if (!result) {
-            return "member/signup"; // 실패 시 다시 입력페이지로
+            return ViewPath.MEMBER_SIGNUP; // 실패 시 다시 입력페이지로
         }
         return "redirect:/item/list"; // 성공 시 리스트로
     }
@@ -58,7 +54,7 @@ public class MemberController {
     //2.1.1 세션 로그인
     @GetMapping("/login")
     String loginSession(String username, String password) {
-        return "member/login";
+        return ViewPath.MEMBER_LOGIN;
     }
 
     //2.1.2 JWT 로그인
@@ -119,7 +115,7 @@ public class MemberController {
 
         if (opt.isPresent()) {
             model.addAttribute("member", opt.get());
-            return "member/my-page";
+            return ViewPath.MEMBER_MY_PAGE;
         }
 
         return "member/login";
@@ -142,7 +138,7 @@ public class MemberController {
         if (auth==null || auth.isAuthenticated()) {
             return "redirect:/item/list";
         }
-        return "member/my-page";
+        return ViewPath.MEMBER_MY_PAGE;
     }
 
 

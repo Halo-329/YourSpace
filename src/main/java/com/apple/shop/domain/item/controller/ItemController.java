@@ -8,14 +8,15 @@ import com.apple.shop.domain.item.entity.Item;
 import com.apple.shop.domain.item.service.S3Service;
 import com.apple.shop.domain.sales.service.SalesService;
 import com.apple.shop.domain.member.service.MyUserDetailsService;
+import com.apple.shop.view.ViewPath;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.net.URLEncoder;
 
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +47,7 @@ public class ItemController {
         model.addAttribute("currentPage", num);
         model.addAttribute("totalPages", result.getTotalPages());
 
-        return "item/list";
+        return ViewPath.ITEM_LIST;
 
     }
 
@@ -56,7 +57,7 @@ public class ItemController {
     // 1. 상품 등록
     @GetMapping("/write")
     String write() {
-        return "item/write";
+        return ViewPath.ITEM_WRITE;
     }
 
     @PostMapping("/add")
@@ -67,7 +68,7 @@ public class ItemController {
 
 
         if (!result) {
-            return "item/write"; // 실패 시 다시 입력페이지로
+            return ViewPath.ITEM_WRITE; // 실패 시 다시 입력페이지로
         }
         return "redirect:/item/list"; // 성공 시 리스트로
 
@@ -84,7 +85,7 @@ public class ItemController {
         if (opt.isPresent()) {   // 존재하면 true
             model.addAttribute("data", opt.get());
         }
-        return "item/modify";
+        return ViewPath.ITEM_MODIFY;
     }
 
     @PostMapping("/updata")
@@ -126,7 +127,7 @@ public class ItemController {
         if (opt.isPresent()) {   // 존재하면 true
             model.addAttribute("data", opt.get());
             model.addAttribute("commentList",comment_list);
-            return "item/detail";
+            return ViewPath.ITEM_DETAIL;
         } else {
             return "redirect:/member/list";
         }
@@ -173,7 +174,7 @@ public class ItemController {
     @PostMapping("/search")
     String search(@RequestParam String searchText) throws Exception{
 //        List<Item> res=itemService.getSearchItemsList(searchText);
-        searchText=URLEncoder.encode(searchText, "UTF-8");
+        searchText= URLEncoder.encode(searchText, "UTF-8");
         return "redirect:/item/search/1?searchText="+searchText;
     }
 
@@ -185,7 +186,7 @@ public class ItemController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", res.getTotalPages());
 
-        return "item/search";
+        return ViewPath.ITEM_SEARCH;
     }
 
 
