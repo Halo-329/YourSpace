@@ -1,13 +1,17 @@
 package com.apple.shop.view;
 
 public class ViewPath {
-     private static final String CART_PATH = "cart/";
-    private static final String COMMENT_PATH = "Comment/";
-    private static final String COMMON_PATH = "common/";
-    private static final String ITEM_PATH = "item/";
-    private static final String LAYOUT_PATH = "layout/";
-    private static final String MEMBER_PATH = "member/";
-    private static final String SALES_PATH = "sales/";
+
+    private static final String FEATURE_PATH="feature/";
+
+    private static final String CART_PATH = FEATURE_PATH + "cart/";
+    private static final String COMMENT_PATH = FEATURE_PATH + "comment/";
+    private static final String COMMON_PATH = FEATURE_PATH + "common/";
+    private static final String ITEM_PATH = FEATURE_PATH + "item/";
+    private static final String LAYOUT_PATH = FEATURE_PATH + "layout/";
+    private static final String MEMBER_PATH = FEATURE_PATH + "member/";
+    private static final String SALES_PATH = FEATURE_PATH + "sales/";
+
 
 
     // 장바구니
