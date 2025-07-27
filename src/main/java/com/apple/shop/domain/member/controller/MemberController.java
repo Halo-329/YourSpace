@@ -43,7 +43,7 @@ public class MemberController {
         if (!result) {
             return ViewPath.MEMBER_SIGNUP; // 실패 시 다시 입력페이지로
         }
-        return "redirect:/item/list"; // 성공 시 리스트로
+        return ViewPath.REDIRECT_ITEM_LIST; // 성공 시 리스트로
     }
 
 
@@ -87,7 +87,7 @@ public class MemberController {
     // 2.2 세션 로그아웃, Spring Security가 해준다.
     @PostMapping("/logout")
     String logout(String username, String password) {
-        return "redirect:/item/list";
+        return ViewPath.REDIRECT_ITEM_LIST;
     }
 
     // 2.3 jwt 로그아웃, 쿠키 삭제하는 방향으로
@@ -101,7 +101,7 @@ public class MemberController {
         cookie.setPath("/");
         response.addCookie(cookie);
 
-        return "redirect:/item/list";
+        return ViewPath.REDIRECT_ITEM_LIST;
     }
 
 
@@ -136,7 +136,7 @@ public class MemberController {
     @GetMapping("/register")
     String register(Authentication auth) {
         if (auth==null || auth.isAuthenticated()) {
-            return "redirect:/item/list";
+            return ViewPath.REDIRECT_ITEM_LIST;
         }
         return ViewPath.MEMBER_MY_PAGE;
     }

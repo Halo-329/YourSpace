@@ -36,7 +36,7 @@ public class ItemController {
 
     @GetMapping("/list")
     String list() {
-        return "redirect:/item/list/page/1";
+        return ViewPath.REDIRECT_ITEM_LIST + "/page/1";
     }
 
     @GetMapping("/list/page/{num}")
@@ -57,7 +57,7 @@ public class ItemController {
     // 1. 상품 등록
     @GetMapping("/write")
     String write() {
-        return ViewPath.ITEM_WRITE;
+        return         ViewPath.REDIRECT_ITEM_LIST; // 성공 시 리스트로
     }
 
     @PostMapping("/add")
@@ -70,7 +70,7 @@ public class ItemController {
         if (!result) {
             return ViewPath.ITEM_WRITE; // 실패 시 다시 입력페이지로
         }
-        return "redirect:/item/list"; // 성공 시 리스트로
+        return ViewPath.REDIRECT_ITEM_LIST; // 성공 시 리스트로
 
     }
 
@@ -97,7 +97,7 @@ public class ItemController {
         if (!result) {
             return "/modify/" + id; // 실패 시 다시 입력페이지로
         }
-        return "redirect:/item/list"; // 성공 시 리스트로
+        return ViewPath.REDIRECT_ITEM_LIST; // 성공 시 리스트로
 
     }
 
@@ -129,7 +129,7 @@ public class ItemController {
             model.addAttribute("commentList",comment_list);
             return ViewPath.ITEM_DETAIL;
         } else {
-            return "redirect:/member/list";
+            return ViewPath.REDIRECT_MEMBER_LIST;
         }
     }
 
@@ -162,7 +162,7 @@ public class ItemController {
 
         commentRepo.save(comment);
 
-        return "redirect:/item/detail/"+parentId;
+        return ViewPath.REDIRECT_ITEM_DETAIL+parentId;
 
         //http://localhost:8080/item/detail/55
     }
@@ -175,7 +175,7 @@ public class ItemController {
     String search(@RequestParam String searchText) throws Exception{
 //        List<Item> res=itemService.getSearchItemsList(searchText);
         searchText= URLEncoder.encode(searchText, "UTF-8");
-        return "redirect:/item/search/1?searchText="+searchText;
+        return ViewPath.REDIRECT_ITEM_SEARCH+searchText;
     }
 
     // 7.2 검색 결과 뷰

@@ -47,4 +47,11 @@ public class ViewPath {
     // salse
     public static final String SALES_LIST = SALES_PATH + "list";
     public static final String SALES_ORDER = SALES_PATH + "order";
+
+    // redirects
+    public static final String REDIRECT_ITEM_LIST = "redirect:/item/list";
+    public static final String REDIRECT_ITEM_DETAIL = "redirect:/item/detail/";
+    public static final String REDIRECT_ITEM_SEARCH = "redirect:/item/search/1?searchText=";
+    public static final String REDIRECT_MEMBER_LIST = "redirect:/member/list";
+    public static final String REDIRECT_SALES_ORDER = "redirect:/sales/order";
 }

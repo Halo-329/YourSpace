@@ -50,11 +50,11 @@ public class SalesController
                RedirectAttributes ra) {
         try {
             salesService.createSalesRecord(itemId,count,auth);
-            return "redirect:/item/list";
+            return ViewPath.REDIRECT_ITEM_LIST;
         } catch (IllegalArgumentException e) {
             ra.addFlashAttribute("error", e.getMessage());
             ra.addAttribute("itemId", itemId);
-            return "redirect:/sales/order";
+            return ViewPath.REDIRECT_SALES_ORDER;
         }
     }
 
