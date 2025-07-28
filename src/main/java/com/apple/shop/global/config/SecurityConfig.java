@@ -43,8 +43,16 @@ public class SecurityConfig {
     );
 
         http.authorizeHttpRequests((authorize) ->
-                authorize.requestMatchers("/**").permitAll()
-        );
+        authorize
+            .requestMatchers(
+                "/css/**",
+                "/js/**",
+                "/images/**",
+                "/webjars/**",
+                "/favicon.ico"
+            ).permitAll()
+            .anyRequest().permitAll()
+);
         http.formLogin((formLogin) -> formLogin.loginPage("/member/login")
 //                        .loginProcessingUrl("/member/check") // 로그인 처리 요청 (POST)// 1. 로그인 할 URL
                         .defaultSuccessUrl("/item/list", true) // 2. 로그인 성공시 이동할 URL
