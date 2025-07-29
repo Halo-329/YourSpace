@@ -3,6 +3,7 @@ package com.apple.shop.domain.sales.controller;
 import com.apple.shop.domain.item.entity.Item;
 import com.apple.shop.domain.item.service.ItemService;
 import com.apple.shop.domain.sales.service.SalesService;
+import com.apple.shop.view.ViewPath;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -32,13 +33,13 @@ public class SalesController
             model.addAttribute("item", opt.get());
         }
 
-        return "/sales/order";    // html return
+        return ViewPath.SALES_ORDER;    // html return
     }
     @GetMapping("/order")
     public String orderPage(@RequestParam Long itemId, Model model, @ModelAttribute("error") String error) {
         itemService.FindItem(itemId).ifPresent(item -> model.addAttribute("item", item));
         model.addAttribute("error", error); // FlashAttribute로 넘긴 에러 메시지 표시
-        return "/sales/order";
+        return ViewPath.SALES_ORDER;
     }
 
     // 1.2 결제하기
@@ -49,11 +50,11 @@ public class SalesController
                RedirectAttributes ra) {
         try {
             salesService.createSalesRecord(itemId,count,auth);
-            return "redirect:/item/list";
+            return ViewPath.REDIRECT_ITEM_LIST;
         } catch (IllegalArgumentException e) {
             ra.addFlashAttribute("error", e.getMessage());
             ra.addAttribute("itemId", itemId);
-            return "redirect:/sales/order";
+            return ViewPath.REDIRECT_SALES_ORDER;
         }
     }
 
@@ -68,7 +69,7 @@ public class SalesController
     String orderList(Model model){
 
         model.addAttribute("orders", salesService.getAllOrderDetailList());
-        return "sales/list";
+        return ViewPath.SALES_LIST;
     }
 
 }
