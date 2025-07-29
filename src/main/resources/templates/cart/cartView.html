@@ -5,20 +5,22 @@
     <title>장바구니</title>
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/layout/nav.css">
-    <link rel="stylesheet" href="/css/cart/cart.css">
+    <link rel="stylesheet" href="/css/cart/cartView.css">
 </head>
 <body>
     <div th:replace="~{layout/nav.html::navbar}"></div>
     <div class="cart-container">
-        <h1>장바구니</h1>
-        <div class="cart-items">
-            <!-- Cart items will be dynamically added here -->
-        </div>
-        <div class="cart-summary">
-            <p>총 결제 금액: <span class="total-price">0</span>원</p>
-            <button class="order-button">주문하기</button>
-        </div>
+      <h1 class="cart-title">🛒 장바구니</h1>
+      <ul class="cart-items"></ul>
+      <div class="cart-summary">
+        <span>총 결제 금액:</span>
+        <strong class="total-price">0원</strong>
+        <button class="order-button">주문하기</button>
+      </div>
     </div>
-    <script src="/js/cart/cart.js"></script>
+    <script src="/js/cart/cartView.js"></script>
+</body>
+</html>
+    <script src="/js/cart/cartView.js"></script>
 </body>
 </html>
