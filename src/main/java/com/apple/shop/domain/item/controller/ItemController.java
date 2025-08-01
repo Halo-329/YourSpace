@@ -61,7 +61,6 @@ public class ItemController {
     }
 
     @PostMapping("/add")
-
     String add(String title, int price, String imgUrl ,int stock ,Model model, Authentication auth ) {
         String usrid=auth.getName();
         boolean result = itemService.savaItem(title, price, stock, model,usrid, imgUrl);

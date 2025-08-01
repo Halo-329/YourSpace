@@ -6,16 +6,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @Controller
 @RequestMapping("/cart")
 public class CartController {
 
-    // https://cart.coupang.com/cartView.pang
+    // http://localhost:8080/cart
     @GetMapping
     String cartView(){
-        return "cart/cartView";
+        return ViewPath.CART_VIEW;
     }
 
     @PostMapping

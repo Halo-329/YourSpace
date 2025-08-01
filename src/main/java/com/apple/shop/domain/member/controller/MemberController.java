@@ -57,31 +57,37 @@ public class MemberController {
         return ViewPath.MEMBER_LOGIN;
     }
 
-    //2.1.2 JWT 로그인
+    // 2.1.2 JWT 로그인 (HTML 리턴)
     @PostMapping("/login/jwt")
-    @ResponseBody
-    Map<String, String> loginJWT(@RequestBody Map<String, String> res, HttpServletResponse response, Model model){
+    public String loginJWT(@RequestParam String username,
+                           @RequestParam String password,
+                           HttpServletResponse response,
+                           Model model) {
 
-        var authToken = new UsernamePasswordAuthenticationToken(
-                res.get("username"), res.get("password")
-        );
+        var authToken = new UsernamePasswordAuthenticationToken(username, password);
 
-        try{
-            var auth = authenticationManagerBuilder.getObject().authenticate(authToken);    // DB에서 조회 (loadUserByUsername 메서드 호출)
-            SecurityContextHolder.getContext().setAuthentication(auth); // auth spring security에 할당
+        try {
+            var auth = authenticationManagerBuilder.getObject().authenticate(authToken);
+            SecurityContextHolder.getContext().setAuthentication(auth);
+
             String jwt = JwtUtil.createToken(SecurityContextHolder.getContext().getAuthentication());
 
             var cookie = new Cookie("jwt", jwt);
             cookie.setPath("/");
-            cookie.setMaxAge(24*60*60);
+            cookie.setMaxAge(24 * 60 * 60);
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
 
-            return Map.of("status", "success", "redirect", "/item/list");
-        }catch(Exception e){
-            return Map.of("status","fail","message", e.toString());
+            // 로그인 성공 후 페이지 이동
+            return "redirect:/item/list";
+
+        } catch (Exception e) {
+            model.addAttribute("loginError", "아이디 또는 비밀번호가 잘못되었습니다.");
+            return "feature/member/login"; // 로그인 실패 시 다시 로그인 페이지로
         }
     }
+
+
 
 
     // 2.2 세션 로그아웃, Spring Security가 해준다.

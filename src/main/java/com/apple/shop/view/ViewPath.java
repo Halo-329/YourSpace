@@ -16,7 +16,6 @@ public class ViewPath {
 
     // 장바구니
     public static final String CART_VIEW = CART_PATH + "cartView";
-    public static final String CART = CART_PATH + "cart";
 
 
     // 댓글

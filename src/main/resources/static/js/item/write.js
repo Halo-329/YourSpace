@@ -14,7 +14,6 @@ async function getURL(e) {
     });
 
     console.log(presigned_url);
-
     if (res.ok) {   // 전송 성공했으면
         const url = presigned_url.split("?")[0];    // 해당 url에서 쿼리스트링 뺀거
         const img = document.getElementById("preview");
