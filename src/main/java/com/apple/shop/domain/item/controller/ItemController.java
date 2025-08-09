@@ -57,7 +57,7 @@ public class ItemController {
     // 1. 상품 등록
     @GetMapping("/write")
     String write() {
-        return         ViewPath.REDIRECT_ITEM_LIST; // 성공 시 리스트로
+        return         ViewPath.ITEM_WRITE; // 성공 시 리스트로
     }
 
     @PostMapping("/add")
