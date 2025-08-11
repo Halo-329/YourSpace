@@ -8,14 +8,15 @@ import com.apple.shop.domain.item.entity.Item;
 import com.apple.shop.domain.item.service.S3Service;
 import com.apple.shop.domain.sales.service.SalesService;
 import com.apple.shop.domain.member.service.MyUserDetailsService;
+import com.apple.shop.view.ViewPath;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.net.URLEncoder;
 
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +36,7 @@ public class ItemController {
 
     @GetMapping("/list")
     String list() {
-        return "redirect:/item/list/page/1";
+        return ViewPath.REDIRECT_ITEM_LIST + "/page/1";
     }
 
     @GetMapping("/list/page/{num}")
@@ -46,7 +47,7 @@ public class ItemController {
         model.addAttribute("currentPage", num);
         model.addAttribute("totalPages", result.getTotalPages());
 
-        return "item/list";
+        return ViewPath.ITEM_LIST;
 
     }
 
@@ -56,20 +57,19 @@ public class ItemController {
     // 1. 상품 등록
     @GetMapping("/write")
     String write() {
-        return "item/write";
+        return         ViewPath.ITEM_WRITE; // 성공 시 리스트로
     }
 
     @PostMapping("/add")
-
     String add(String title, int price, String imgUrl ,int stock ,Model model, Authentication auth ) {
         String usrid=auth.getName();
         boolean result = itemService.savaItem(title, price, stock, model,usrid, imgUrl);
 
 
         if (!result) {
-            return "item/write"; // 실패 시 다시 입력페이지로
+            return ViewPath.ITEM_WRITE; // 실패 시 다시 입력페이지로
         }
-        return "redirect:/item/list"; // 성공 시 리스트로
+        return ViewPath.REDIRECT_ITEM_LIST; // 성공 시 리스트로
 
     }
 
@@ -84,7 +84,7 @@ public class ItemController {
         if (opt.isPresent()) {   // 존재하면 true
             model.addAttribute("data", opt.get());
         }
-        return "item/modify";
+        return ViewPath.ITEM_MODIFY;
     }
 
     @PostMapping("/updata")
@@ -96,7 +96,7 @@ public class ItemController {
         if (!result) {
             return "/modify/" + id; // 실패 시 다시 입력페이지로
         }
-        return "redirect:/item/list"; // 성공 시 리스트로
+        return ViewPath.REDIRECT_ITEM_LIST; // 성공 시 리스트로
 
     }
 
@@ -126,9 +126,9 @@ public class ItemController {
         if (opt.isPresent()) {   // 존재하면 true
             model.addAttribute("data", opt.get());
             model.addAttribute("commentList",comment_list);
-            return "item/detail";
+            return ViewPath.ITEM_DETAIL;
         } else {
-            return "redirect:/member/list";
+            return ViewPath.REDIRECT_MEMBER_LIST;
         }
     }
 
@@ -161,7 +161,7 @@ public class ItemController {
 
         commentRepo.save(comment);
 
-        return "redirect:/item/detail/"+parentId;
+        return ViewPath.REDIRECT_ITEM_DETAIL+parentId;
 
         //http://localhost:8080/item/detail/55
     }
@@ -173,8 +173,8 @@ public class ItemController {
     @PostMapping("/search")
     String search(@RequestParam String searchText) throws Exception{
 //        List<Item> res=itemService.getSearchItemsList(searchText);
-        searchText=URLEncoder.encode(searchText, "UTF-8");
-        return "redirect:/item/search/1?searchText="+searchText;
+        searchText= URLEncoder.encode(searchText, "UTF-8");
+        return ViewPath.REDIRECT_ITEM_SEARCH+searchText;
     }
 
     // 7.2 검색 결과 뷰
@@ -185,7 +185,7 @@ public class ItemController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", res.getTotalPages());
 
-        return "item/search";
+        return ViewPath.ITEM_SEARCH;
     }
 
 

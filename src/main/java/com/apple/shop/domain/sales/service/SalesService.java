@@ -67,6 +67,11 @@ public class SalesService {
         return salesRepo.findAll();
     }
 
+    // 2.1 DB 행 불러오기 (원하는 ID 만)
+    public List<Sales> getOrderDetailListByLoginId(String loginId) {
+        return salesRepo.findAllByMember_LoginId(loginId);
+    }
+
     // 3. 재고 체크
     public boolean isStockAvailable(Long itemId, int count){
         Item item=null;

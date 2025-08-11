@@ -1,6 +1,5 @@
 package com.apple.shop.global.config;
 
-import com.apple.shop.domain.member.service.MyUserDetailsService;
 import com.apple.shop.domain.member.service.MyUserDetailsService.CustomUser;
 import com.apple.shop.global.util.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -12,13 +11,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.sql.Array;
 import java.util.Arrays;
 
 public class JwtFilter extends OncePerRequestFilter {
@@ -27,54 +23,59 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(
             HttpServletRequest request,
             HttpServletResponse response,
-      FilterChain filterChain
-  ) throws ServletException, IOException {
+            FilterChain filterChain
+    ) throws ServletException, IOException {
 
-
-    //요청들어올때마다 실행할코드~~
+        // 쿠키 가져오기
         Cookie[] cookies = request.getCookies();
-        Cookie cookie=null;
-        if (cookies==null) filterChain.doFilter(request, response);
-
-        for(int i=0; i<cookies.length; i++){
-            if(cookies[i].getName().equals("jwt")){
-               cookie=cookies[i];
-            }
-        }
-
-        Claims claim;
-        try{
-            claim=JwtUtil.extractToken(cookie.getValue());
-        }catch (Exception e){
-            System.out.println("(Error) "+e.getMessage());
+        if (cookies == null) {
             filterChain.doFilter(request, response);
             return;
         }
 
+        // jwt 쿠키 찾기
+        Cookie jwtCookie = null;
+        for (Cookie c : cookies) {
+            if ("jwt".equals(c.getName())) {
+                jwtCookie = c;
+                break;
+            }
+        }
+
+        // jwt 쿠키가 없다면 다음 필터로 진행
+        if (jwtCookie == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // JWT 검증
+        Claims claim;
+        try {
+            claim = JwtUtil.extractToken(jwtCookie.getValue());
+        } catch (Exception e) {
+            System.out.println("(Error) " + e.getMessage());
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // 사용자 권한 세팅
         String[] arr = claim.get("authorities").toString().split(",");
-        var authorites=Arrays.stream(arr)
-                .map(o -> new SimpleGrantedAuthority(o)).toList();
+        var authorities = Arrays.stream(arr)
+                .map(SimpleGrantedAuthority::new)
+                .toList();
 
         String username = claim.get("username").toString();
-        CustomUser customUsr = new CustomUser(
-                username,
-                "",
-                authorites
-        );
-        customUsr.displayName=claim.get("displayName").toString();
+        CustomUser customUser = new CustomUser(username, "", authorities);
+        customUser.displayName = claim.get("displayName").toString();
 
+        // Spring Security 인증 객체 설정
         var authToken = new UsernamePasswordAuthenticationToken(
-                customUsr, "", authorites
+                customUser, "", authorities
         );
-
-        authToken.setDetails(new WebAuthenticationDetailsSource()
-                .buildDetails(request)
-        );
+        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
-
-        filterChain.doFilter(request, response);    // 다음 필터로 넘어가주세요.
-  }
-
-
+        // 다음 필터 실행
+        filterChain.doFilter(request, response);
+    }
 }
