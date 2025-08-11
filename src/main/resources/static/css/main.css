@@ -1,21 +1,6 @@
+/* main.css — 전역 폰트만 지정 */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap');
 
 body {
   font-family: 'Montserrat', sans-serif;
-  background-color: #f9f9f9;
-  margin: 0;
-  padding: 0; /* 전역 padding 제거 */
-}
-
-input,
-button {
-  padding: 8px 13px;
-  margin-top: 5px;
-  border: 1px solid grey;
-  border-radius: 4px;
-  vertical-align: middle;
-}
-
-input {
-  display: block;
 }
