@@ -12,56 +12,22 @@
 <body>
 
 <main>
-<!--    <form class="login-container" action="/member/login" method="POST">-->
-    <form class="login-container">
-        <h2><a href="/item/list" >Shopping Mall</a></h2>
+    <!-- 서버로 POST 방식 전송 -->
+    <form class="login-container" action="/member/login/jwt" method="POST">
+        <h2><a href="/item/list">Shopping Mall</a></h2>
 
         <input id="username" name="username" placeholder="아이디" required>
         <input id="password" name="password" type="password" placeholder="비밀번호" required>
 
+        <!-- 로그인 실패 시 서버에서 에러 메시지 표시 -->
+        <p th:if="${loginError != null}" th:text="${loginError}" style="color: red;"></p>
 
-        <p id="error_msg" style="color: red; display: none;"></p>
+        <!-- submit 방식 로그인 -->
+        <button type="submit">로그인</button>
 
-
-        <!-- JWT 방식 로그인 -->
-        <button onclick="loginJWT(event)">로그인</button>
-
-<!--        <button id="loginBtn" type="submit" disabled>로그인</button>-->
-
-        <!-- ✅ 회원가입 유도 문구 -->
         <p class="signup-link"> ✋🏻 계정이 없으신가요? <a href="/member/signup">회원가입</a></p>
     </form>
-
-
-   <script>
-  function loginJWT(event){
-      event.preventDefault(); // 폼 새로고침 방지
-
-      fetch('/member/login/jwt', {
-        method : 'POST',
-        headers : {'Content-Type': 'application/json'},
-        credentials: 'include',
-        body : JSON.stringify({
-          username : document.querySelector('#username').value,
-          password : document.querySelector('#password').value
-        }),
-      })
-      .then(r => r.json())
-      .then(data => {
-          console.log("서버 응답:", data); // 먼저 응답 구조 확인
-          if (data.status === "success") {
-            window.location.href = data.redirect;
-          } else {
-                document.querySelector('#error_msg').innerText = "아이디(로그인 전화번호, 로그인 전용 아이디) 또는 비밀번호가 잘못 되었습니다. 아이디와 비밀번호를 정확히 입력해 주세요.\n";
-                document.querySelector('#error_msg').style.display = 'block';
-          }
-        });
-  }
-</script>
 </main>
-
-
-<script src="/js/member/login.js"></script>
 
 </body>
 </html>
